@@ -2,10 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
-// import usersRoute from "./routes/users.js";
-// import hotelsRoute from "./routes/hotels.js";
-// import roomRoute from "./routes/room.js";
-// import cookieParser from "cookie-parser";
 import cors from "cors"; //The cors package is used in Node.js applications to handle Cross-Origin Resource Sharing (CORS) headers.
 
 const app = express();
@@ -29,21 +25,12 @@ app.get("/", (req, res) => {
   res.send("hello first request!.");
 });
 
-//middlewares
 
-// app.use((req, res, next) => {
-//   console.log("hi im a middleware");
-//   next(); //go to the next middleware
-// });
-
-app.use(cors()); //but it is not want now because this -> "proxy": "http://localhost:8800/api"
+app.use(cors());
 // app.use(cookieParser());
-app.use(express.json()); //Express application to parse incoming request bodies with JSON payloads.
+app.use(express.json());
 
 app.use("/api/auth", authRoute);
-// app.use("/api/users", usersRoute);
-// app.use("/api/hotels", hotelsRoute);
-// app.use("/api/rooms", roomRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
