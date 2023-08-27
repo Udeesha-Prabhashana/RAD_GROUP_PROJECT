@@ -13,29 +13,33 @@ import useFetch from "../../hooks/useFetch";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import styled from "@emotion/styled";
-
-// const StyledTable = styled(Table)`
-//     width: 90%;
-//     margin: 50px 0 0 50px;
-// `;
-
-// const StyleTableHead = styled(TableRow)`
-//     & > th {
-//         font-size: 20px;
-//         background: #000000;
-//         color: #FFFFFF;
-//     }
-// `;
-
+import EditeFood from "./EditeFood";
+import axios from "axios";
+import { useState } from "react";
 
 const Food = () => {
 
-    const { data, loading, error } = useFetch(`http://localhost:8880/api/food`);
+    const { data, loading, error, setData } = useFetch(`http://localhost:8880/api/food`);
+    const [updatedData, setUpdatedData] = useState(data);
     let navigate = useNavigate();
 
-    const handleClick = () => {
+    const handleClick1 = () => {
         navigate('/addfood')
     }
+
+    const handleClick2 = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:8880/api/food/${id}`);
+            console.log('Food deleted:', response.data);
+            // Optionally, you can navigate to a different page after successful addition
+            const response2 = await axios.get(`http://localhost:8880/api/food`);
+            console.log('view all foods', response2.data)
+            setUpdatedData(response2.data);
+        } catch (error) {
+            console.error('Error adding user:', error);
+        }
+    }
+
 
     return (
         <div className="home">
@@ -43,7 +47,7 @@ const Food = () => {
             <div className="homeContainer">
                 <Navbar />
                 <div className="addfood">
-                    <button className="add-food-button" onClick={ handleClick}> ADD FOOD </button>
+                    <button className="add-food-button" onClick={ handleClick1}> ADD FOOD </button>
                 </div>
                 {loading ? (
                     "loading"
@@ -66,8 +70,8 @@ const Food = () => {
                                         <TableCell > {item.desc}</TableCell>
                                         <TableCell >{item.price}</TableCell>
                                         <TableCell>
-                                              <Button > Edit</Button>  
-                                              <Button className="delete" > Delete</Button>  
+                                              <Button component={Link} to={`/editefood/${item._id}`}> Edit</Button>  
+                                              <Button className="delete"  onClick={() => handleClick2(item._id )}> Delete</Button>  
                                         </TableCell>
                                     </TableRow>
                                     </TableBody>

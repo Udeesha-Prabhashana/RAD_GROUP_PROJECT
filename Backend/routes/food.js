@@ -17,6 +17,6 @@ router.delete("/:id", deleteFood);
 //GET ALL
 router.get("/", getFoods);
 //get food
-router.get("/:id", getFood);
+router.get("/find/:id", getFood);
 
 export default router

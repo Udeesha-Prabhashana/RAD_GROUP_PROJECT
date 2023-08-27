@@ -45,8 +45,8 @@ export const getFoods = async (req, res, next) => {
 
 export const getFood = async (req, res, next) => {
   try {
-    const Food = await Food.findById(req.params.id);
-    res.status(200).json(Food);
+    const food = await Food.findById(req.params.id);
+    res.status(200).json(food);
   } catch (err) {
     next(err);
   }
