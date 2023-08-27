@@ -1,7 +1,7 @@
 import express from "express";
 import Food from "../models/Food.js";
 
-import { createFood, updateFood, deleteFood, getFoods } from "../controllers/food.js";
+import { createFood, updateFood, deleteFood, getFoods, getFood } from "../controllers/food.js";
 
 const router = express.Router();
 
@@ -16,5 +16,7 @@ router.delete("/:id", deleteFood);
 
 //GET ALL
 router.get("/", getFoods);
+//get food
+router.get("/:id", getFood);
 
 export default router

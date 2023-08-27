@@ -42,3 +42,12 @@ export const getFoods = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getFood = async (req, res, next) => {
+  try {
+    const Food = await Food.findById(req.params.id);
+    res.status(200).json(Food);
+  } catch (err) {
+    next(err);
+  }
+};
