@@ -20,4 +20,6 @@ function App() {
   );
 }
 
+//Tharindra is a simple human.
+
 export default App;
