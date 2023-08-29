@@ -21,4 +21,6 @@ function App() {
   //Yuhanga
 }
 
+//Tharindra is a simple human.
+
 export default App;
