@@ -9,9 +9,12 @@ import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
 
     const navigate = useNavigate();
-    const handleClick = () => {
+    const handleClick_food = () => {
         navigate('/food');
     }
+
+    const handleClick_payment = () => {
+        navigate('/payment');
     const handleClick_room = () => {
         navigate('/room');
     }
@@ -33,11 +36,11 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <PaidOutlinedIcon className="icon"/>
-                        <span> Payment </span>
+                        <span onClick={handleClick_payment}> Payment </span>
                     </li>
                     <li>
                         <LocalDiningOutlinedIcon className="icon"/>
-                        <span onClick={handleClick}> Foods </span>
+                        <span onClick={handleClick_food}> Foods </span>
                     </li>
                     <li>
                         <BedroomChildOutlinedIcon className="icon"/>

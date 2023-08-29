@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import foodRoute from "./routes/food.js";
+import paymentRoute from "./routes/payment.js"
 import roomRoute from "./routes/room.js";
 
 import cors from "cors"; //The cors package is used in Node.js applications to handle Cross-Origin Resource Sharing (CORS) headers.
@@ -36,6 +37,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoute);
 app.use("/api/food", foodRoute);
+app.use("/api/payment", paymentRoute);
 app.use("/api/room", roomRoute);
 
 

@@ -1,0 +1,36 @@
+// .home {
+//     display: flex;
+
+
+//     .homeContainer {
+//         // background-color: rgb(162, 177, 182);
+//         flex: 6;
+
+//     }
+// }
+
+.table-head {
+    background-color: rgb(182, 166, 226);
+    padding: 10px;
+    width: 100%;
+    font-weight: 20;
+}
+
+.table-head-font{
+    font-size: 20px;
+}
+.delete{
+    color: red;
+}
+
+.createPayment{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.create-payment-button{
+    background-color: #c8cbd2;
+    font-weight: bold;
+    width: max-content;
+    cursor: pointer;
+}
