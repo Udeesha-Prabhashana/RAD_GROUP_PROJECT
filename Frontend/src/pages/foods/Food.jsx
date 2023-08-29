@@ -15,13 +15,17 @@ import { Button } from "@mui/material";
 import styled from "@emotion/styled";
 import EditeFood from "./EditeFood";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Food = () => {
 
     const { data, loading, error, setData } = useFetch(`http://localhost:8880/api/food`);
-    const [updatedData, setUpdatedData] = useState(data);
+    const [updatedData, setUpdatedData] = useState([]);
     let navigate = useNavigate();
+
+    useEffect(() => {
+        setUpdatedData(data)
+    }, [data])
 
     const handleClick1 = () => {
         navigate('/addfood')
@@ -29,7 +33,9 @@ const Food = () => {
 
     const handleClick2 = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:8880/api/food/${id}`);
+            const response = await axios.delete(`http://localhost:8880/api/food/${ id }`, {
+                withCredentials: true
+            });
             console.log('Food deleted:', response.data);
             // Optionally, you can navigate to a different page after successful addition
             const response2 = await axios.get(`http://localhost:8880/api/food`);
@@ -61,7 +67,7 @@ const Food = () => {
                                         <TableCell className="table-head-font"> Price</TableCell>
                                         <TableCell className="table-head-font">   </TableCell>
                                 </TableHead>
-                                {data.map((item) => (
+                                {updatedData.map((item) => (
                                 <TableBody>
                                     <TableRow>
                                         <TableCell component="th" scope="row">

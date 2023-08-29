@@ -1,6 +1,8 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import createError from "http-errors";
+import jwt from "jsonwebtoken";
+
 
 export const register = async (req, res, next) => {
   try {
@@ -32,8 +34,32 @@ export const login = async (req, res, next) => {
       user.password
     );
     if (!isPasswordCorrect)
-      return next(createError(400, "wrong password or username!"));
-      res.status(200).send("Logging successful");
+      return next(createError(400, "Wrong password or username!"));
+      console.log(user)
+    if (!user.isAdmin) {
+      return next(createError(403, "You don't have admin privileges"));
+    }
+    
+    console.log("user._id:", user._id);
+    console.log("user.isAdmin:", user.isAdmin);
+    console.log("process.env.JWT_SECRET:", process.env.JWT_SECRET);
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin
+      },
+      process.env.JWT_SECRET
+    ); //"sdfsdfs" shoud have change but i can not install openssl
+
+    const { password, isAdmin , ...otherDetails } = user._doc; //excluding the password and isAdmin properties.
+
+    res
+      .cookie("access_token", token, {
+        httpOnly: true, //used to any client can not reach this cookies
+      })
+      .status(200)
+      .json({ isAdmin, ...otherDetails });
   } catch (err) {
     next(err);
   }

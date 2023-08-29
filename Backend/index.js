@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import foodRoute from "./routes/food.js";
 import cors from "cors"; //The cors package is used in Node.js applications to handle Cross-Origin Resource Sharing (CORS) headers.
+import cookieParser from "cookie-parser";
 
 const app = express();
 dotenv.config();
@@ -27,8 +28,8 @@ app.get("/", (req, res) => {
 });
 
 
-app.use(cors());
-// app.use(cookieParser());
+app.use(cors({origin: "http://localhost:3000", credentials: true}));
+app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoute);

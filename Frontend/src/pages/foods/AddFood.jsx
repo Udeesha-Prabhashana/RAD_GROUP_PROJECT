@@ -19,7 +19,9 @@ const AddFoods = () => {
 
     const handleClick = async () => {
         try {
-            const response = await axios.post('http://localhost:8880/api/food', userData);
+            const response = await axios.post('http://localhost:8880/api/food', userData, {
+                withCredentials: true   //when pass to the only withCredentils true
+            });
             console.log('User added:', response.data);
             // Optionally, you can navigate to a different page after successful addition
             navigate('/food'); // Replace '/users' with the appropriate route

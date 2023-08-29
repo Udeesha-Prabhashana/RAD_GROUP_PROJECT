@@ -34,7 +34,9 @@ const EditeFood = () => {
                 }
             }
 
-            const response = await axios.put(`http://localhost:8880/api/food/${id}`, updatedData);
+            const response = await axios.put(`http://localhost:8880/api/food/${ id }`, updatedData, {
+                withCredentials: true
+            });
             console.log('User added:', response.data);
             // Optionally, you can navigate to a different page after successful addition
             navigate('/food'); // Replace '/users' with the appropriate route
