@@ -22,8 +22,10 @@ const Login = () => {
     const handleClick = async (e) => {
         e.preventDefault(); 
         try {
-            const res = await axios.post(`http://localhost:8880/api/auth/login`, credentials);         //sends a POST request to the /auth/login endpoint with the credentials object as the payload. The credentials object contains the username and password entered by the user
-            navigate("/")       //useNavigate hook (provided by React Router) to redirect the user to the home page ("/")
+            const res = await axios.post(`http://localhost:8880/api/auth/login`, credentials, {withCredentials: true}); // {withCredentials: true} use to validate  other pages
+            if (res.data.isAdmin) {
+                navigate("/home")                  //useNavigate hook (provided by React Router) to redirect the user to the home page ("/")
+            }      //sends a POST request to the /auth/login endpoint with the credentials object as the payload. The credentials object contains the username and password entered by the user      
         } catch (err) {
             console.error("Login failed:", err.response.data);
             setError(err.response.data.message);

@@ -15,6 +15,8 @@ const Sidebar = () => {
 
     const handleClick_payment = () => {
         navigate('/payment');
+    const handleClick_room = () => {
+        navigate('/room');
     }
     return (
         <div className="Sidebar">
@@ -42,7 +44,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <BedroomChildOutlinedIcon className="icon"/>
-                        <span> Rooms </span>
+                        <span onClick={handleClick_room}> Rooms </span>
                     </li>
                 </ul>
             </div>

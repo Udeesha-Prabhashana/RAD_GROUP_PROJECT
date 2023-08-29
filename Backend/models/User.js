@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    isAdmin: {
+      type: Boolean,
+      require: true,
+    },
   },
   { timestamps: true } //create time, update time and save
 );

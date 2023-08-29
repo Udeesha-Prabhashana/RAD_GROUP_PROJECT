@@ -1,14 +1,13 @@
-import "./editefood.scss";
+import "./editroom.scss";
 import react, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const EditeFood = () => {
-
+const EditRoom = () => {
     const [userData, setUserData] = useState({
-        Name: '',
-        desc: '',
+        room_Type: '',
         price: '',
+        desc: '',
     });
 
     const { id } = useParams();
@@ -33,33 +32,24 @@ const EditeFood = () => {
                     updatedData[key] = userData[key];
                 }
             }
-
-            const response = await axios.put(`http://localhost:8880/api/food/${ id }`, updatedData, {
-                withCredentials: true
-            });
-            console.log('User added:', response.data);
+            const response = await axios.put(`http://localhost:8880/api/room/${id}`, updatedData);
+            console.log('Room updated:', response.data);
             // Optionally, you can navigate to a different page after successful addition
-            navigate('/food'); // Replace '/users' with the appropriate route
+            navigate('/room'); // Replace '/users' with the appropriate route
         } catch (error) {
-            console.error('Error adding user:', error);
+            console.error('Error updating room:', error);
         }
     }
 
     return (
-        <div className="login">
+        <div className="update">
             <div className="lContainer">
-                <h3 className='header'> EDITE FOOD</h3>
-                <span> Food Name</span>
+                <h3 className='header'> EDIT ROOM</h3>
+                <span> Room Type</span>
                 <input
                     type="text"
-                    id= "Name"
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span> Description </span>
-                <input
-                    type="text"
-                    id= "desc"
+                    id= "room_Type"
+                    placeholder="Room Type"
                     onChange={handleChange}
                     className="lInput"
                 />
@@ -67,15 +57,24 @@ const EditeFood = () => {
                 <input
                     type="text"
                     id= "price"
+                    placeholder="Price"
+                    onChange={handleChange}
+                    className="lInput"
+                />
+                <span> Description </span>
+                <input
+                    type="text"
+                    id= "desc"
+                    placeholder="Description"
                     onChange={handleChange}
                     className="lInput"
                 />
                 <button  onClick={handleClick} className="lButton">
-                    EDIT FOOD
+                    EDIT ROOM
                 </button>
             </div>
         </div>
     );
 }
 
-export default EditeFood;
+export default EditRoom;

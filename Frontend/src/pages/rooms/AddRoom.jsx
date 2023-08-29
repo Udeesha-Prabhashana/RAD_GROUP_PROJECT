@@ -1,14 +1,14 @@
 import react, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "./addfood.scss";
+import "./addroom.scss";
 
-const AddFoods = () => {
+const AddRooms = () => {
 
     const [userData, setUserData] = useState({
-        Name: '',
-        desc: '',
+        room_Type: '',
         price: '',
+        desc: '',
     });
     
     let navigate = useNavigate();
@@ -19,32 +19,24 @@ const AddFoods = () => {
 
     const handleClick = async () => {
         try {
-            const response = await axios.post('http://localhost:8880/api/food', userData, {
-                withCredentials: true   //when pass to the only withCredentils true
-            });
-            console.log('User added:', response.data);
+            const response = await axios.post('http://localhost:8880/api/room', userData);
+            console.log('Room added:', response.data);
             // Optionally, you can navigate to a different page after successful addition
-            navigate('/food'); // Replace '/users' with the appropriate route
+            navigate('/room'); // Replace '/users' with the appropriate route
         } catch (error) {
-            console.error('Error adding user:', error);
+            console.error('Error adding room:', error);
         }
     }
 
     return (
-        <div className="login">
+        <div className="add">
             <div className="lContainer">
-                <h3 className='header'> ADD NEW FOOD</h3>
-                <span> Food Name</span>
+                <h3 className='header'> ADD NEW ROOM</h3>
+                <span> Room Type</span>
                 <input
                     type="text"
-                    id= "Name"
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span> Description </span>
-                <input
-                    type="text"
-                    id= "desc"
+                    id= "room_Type"
+                    placeholder="Room Type"
                     onChange={handleChange}
                     className="lInput"
                 />
@@ -52,15 +44,24 @@ const AddFoods = () => {
                 <input
                     type="text"
                     id= "price"
+                    placeholder="Price"
+                    onChange={handleChange}
+                    className="lInput"
+                />
+                <span> Description </span>
+                <input
+                    type="text"
+                    id= "desc"
+                    placeholder="Description"
                     onChange={handleChange}
                     className="lInput"
                 />
                 <button  onClick={handleClick} className="lButton">
-                    ADD FOOD
+                    ADD Room
                 </button>
             </div>
         </div>
     );
 }
 
-export default AddFoods;
+export default AddRooms;
