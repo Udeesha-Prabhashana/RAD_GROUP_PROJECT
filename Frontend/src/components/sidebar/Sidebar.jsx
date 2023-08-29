@@ -12,6 +12,9 @@ const Sidebar = () => {
     const handleClick = () => {
         navigate('/food');
     }
+    const handleClick_room = () => {
+        navigate('/room');
+    }
     return (
         <div className="Sidebar">
             <div className="top">
@@ -38,7 +41,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <BedroomChildOutlinedIcon className="icon"/>
-                        <span> Rooms </span>
+                        <span onClick={handleClick_room}> Rooms </span>
                     </li>
                 </ul>
             </div>
