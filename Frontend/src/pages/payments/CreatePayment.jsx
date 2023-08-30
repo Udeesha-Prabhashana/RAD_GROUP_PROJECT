@@ -31,7 +31,7 @@ const CreatePayment = () => {
     }
 
     return (
-        <div className="add">
+        <div className="add_payment">
             <div className="lContainer">
                 <h3 className='header'> CREATE NEW PAYMENT</h3>
                 <span>GuestID</span>

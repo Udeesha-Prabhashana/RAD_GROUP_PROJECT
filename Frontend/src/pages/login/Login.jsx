@@ -35,6 +35,7 @@ const Login = () => {
     return (
         <div className="login">
             <div className="lContainer">
+                <h3 className='header'> LOG IN</h3>
                 <span> USERNAME</span>
                 <input
                     type="text"

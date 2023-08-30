@@ -24,7 +24,7 @@ const Sidebar = () => {
     return (
         <div className="Sidebar">
             <div className="top">
-                <Link to="/home">
+                <Link to="/home" className="link">
                     <span className="logo"> HOTEL </span>
                 </Link>
             </div>

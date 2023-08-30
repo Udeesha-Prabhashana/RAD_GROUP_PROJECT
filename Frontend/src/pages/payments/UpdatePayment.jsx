@@ -64,7 +64,7 @@ const UpdatePayment = () => {
     }
 
     return (
-        <div className="update">
+        <div className="update_payment">
             <div className="lContainer">
                 <h3 className='header'> Update Payment</h3>
                 <span>GuestID</span>
