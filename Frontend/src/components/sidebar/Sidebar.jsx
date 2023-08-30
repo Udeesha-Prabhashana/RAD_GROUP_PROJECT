@@ -6,7 +6,6 @@ import BedroomChildOutlinedIcon from '@mui/icons-material/BedroomChildOutlined';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import { Link, useNavigate } from "react-router-dom";
 
-//wxwececece
 const Sidebar = () => {
 
     const navigate = useNavigate();
