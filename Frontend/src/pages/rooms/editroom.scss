@@ -7,20 +7,23 @@
     background-size: cover; /* Adjust as needed */
     background-repeat: no-repeat;
     background-position: center center;
-    opacity: 0.8;
+    opacity: 0.9;
     
     .lContainer {
         width: 300px; /* Adjust the width of the container as needed */
         padding: 20px;
-        border: 1px solid #6439ff;
+        // border: 1px solid #2155CD;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         background-color: #fff;
+        box-shadow: 
+        0px 0px 10px rgba(0, 0, 0, 0.3),
+        0px 4px 6px rgba(0, 0, 0, 0.2);
     }
     
     .header {
         text-align: center;
-        font-size: larger;
+        font-size:x-large;
     }
     
     .lInput {
@@ -35,10 +38,17 @@
         display: block;
         width: 98%;
         padding: 10px;
-        background-color: #6439ff;
+        background-color: #2155CD;
         color: #fff;
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        box-shadow: 
+        0px 0px 10px rgba(0, 0, 0, 0.3),
+        0px 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .lButton:hover {
+        background-color: #0AA1DD;
     }
 }

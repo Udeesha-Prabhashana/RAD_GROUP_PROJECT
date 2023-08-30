@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import "./food.scss";
 import useFetch from "../../hooks/useFetch";
@@ -51,9 +52,16 @@ const Food = () => {
         <div className="home">
             <Sidebar />
             <div className="homeContainer">
-                <Navbar />
-                <div className="addfood">
-                    <button className="add-food-button" onClick={ handleClick1}> ADD FOOD </button>
+                <div className="container">
+                    <div className="box">
+                        <div className="search">
+                        <input type="text" placeholder=" Search..." />
+                        <SearchOutlinedIcon />
+                        </div>
+                    </div>
+                    <div className="box">
+                        <button className="add-food-button" onClick={ handleClick1}> ADD FOOD </button>
+                    </div>
                 </div>
                 {loading ? (
                     "loading"

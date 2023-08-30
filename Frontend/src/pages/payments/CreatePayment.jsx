@@ -29,13 +29,14 @@ const CreatePayment = () => {
     }
 
     return (
-        <div className="login">
+        <div className="add">
             <div className="lContainer">
                 <h3 className='header'> CREATE NEW PAYMENT</h3>
                 <span>GuestID</span>
                 <input
                     type="text"
                     id= "guestID"
+                    placeholder='Enter guest ID'
                     onChange={handleChange}
                     className="lInput"
                 />
@@ -43,6 +44,7 @@ const CreatePayment = () => {
                 <input
                     type="text"
                     id= "payment"
+                    placeholder='Amount'
                     onChange={handleChange}
                     className="lInput"
                 />
@@ -50,6 +52,7 @@ const CreatePayment = () => {
                 <input
                     type="text"
                     id= "date"
+                    placeholder='DD/MM/YYYY'
                     onChange={handleChange}
                     className="lInput"
                 />
