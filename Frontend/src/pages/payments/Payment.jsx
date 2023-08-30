@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 
 import "./payment.scss";
 import useFetch from "../../hooks/useFetch";
@@ -45,9 +46,16 @@ const Payment = () => {
         <div className="home">
             <Sidebar />
             <div className="homeContainer">
-                <Navbar />
-                <div className="createPayment">
-                    <button className="create-payment-button" onClick={ handleClick1}> CREATE NEW PAYMENT </button>
+                <div className="container">
+                    <div className="box">
+                        <div className="search">
+                        <input type="text" placeholder=" Search..." />
+                        <SearchOutlinedIcon />
+                        </div>
+                    </div>
+                    <div className="box">
+                        <button className="add-payment-button" onClick={ handleClick1}> ADD PAYMENT </button>
+                    </div>
                 </div>
                 {loading ? (
                     "loading"
@@ -69,9 +77,10 @@ const Payment = () => {
                                         <TableCell > {item.payment}</TableCell>
                                         <TableCell >{item.date }</TableCell>
                                         <TableCell>
-                                              <Button component={Link} to={`/updatepayment/${item._id}`}>Update</Button>  
+                                              
                                         </TableCell>
                                         <TableCell>
+                                            <Button component={Link} to={`/updatepayment/${item._id}`}>Update</Button>  
                                             <Button className="delete"  onClick={() => handleClick2(item._id )}> Delete</Button>
                                         </TableCell>
                                     </TableRow>

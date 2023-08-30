@@ -1,16 +1,5 @@
-// .home {
-//     display: flex;
-
-
-//     .homeContainer {
-//         // background-color: rgb(162, 177, 182);
-//         flex: 6;
-
-//     }
-// }
-
 .table-head {
-    background-color: rgb(182, 166, 226);
+    background-color: #80b7f1;
     padding: 10px;
     width: 100%;
     font-weight: 20;
@@ -24,12 +13,19 @@
 }
 
 .addroom{
-    margin-top: 10px;
+    margin-top: 0px;
     margin-bottom: 10px;
 }
 
 
 .roomContainer {
+    flex: 1;
+    border: 1px solid rgb(230, 227, 227); //use give side bar boder to the right 
+    min-height: 100vh;
+    background-color: white;
+    width: 97%;
+    margin-left: auto;
+    margin-right: auto;
     table {
         border-collapse: collapse;
         width: 100%;
@@ -40,30 +36,33 @@
         text-align: left;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         transition: background-color 0.3s ease-in-out;
+        // border-radius: 15px;
     }
 
     tr:hover {
-        background-color: #f4f4f4; 
+        background-color: #E8F9FD; 
     }
 }
-.addroom{
-    text-align: right;
-    padding: 0px 16px;
-}
+
 .add-room-button {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #7551f7;
+    background-color: #2155CD;
     color: #fff;
     border: none;
-    border-radius: 25px;
+    border-radius: 10px;
     font-size: 15px;
+    margin-right: 15px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 
+    0px 0px 10px rgba(0, 0, 0, 0.3),
+    0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+
 .add-room-button:hover {
-    background-color: #ab96f9;
+    background-color: #0AA1DD;
 }
 
 .add-room-button:active {
@@ -71,3 +70,40 @@
 }
 
 
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .box {
+    border: none;
+    padding: 10px;
+  }
+  
+  .search {
+    display: flex;
+    align-items: center;
+    border: 0.7px solid lightgray;
+    padding: 6px;
+    height: 30px;
+    width: 200px;
+    margin-left: 10px;
+    border-radius: 10px;
+    gap: 5px;
+    box-shadow: 
+    0px 0px 10px rgba(0, 0, 0, 0.3),
+    0px 4px 6px rgba(0, 0, 0, 0.2);
+    input {
+        border: none;
+        outline: none;
+        background: transparent;
+
+        &::placeholder {
+            font-size: 12px;
+        }
+    }
+  }
+  .search:hover{
+    background-color: #e1ecf2;
+}

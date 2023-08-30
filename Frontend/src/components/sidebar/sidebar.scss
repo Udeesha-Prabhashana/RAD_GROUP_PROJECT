@@ -3,18 +3,30 @@
     border-right: 0.5px solid rgb(230, 227, 227); //use give side bar boder to the right 
     min-height: 100vh;
     background-color: white;
+    border-radius: 5px;
+    box-shadow: 
+    0px 0px 4px rgba(0, 0, 0, 0.3),
+    0px 0px 2px rgba(0, 0, 0, 0.2);
 
     .top {
         height: 50px;
         display: flex;
         align-items: center;
         justify-content: center;
-
+        border: 0.5px solid rgb(230, 227, 227);
+        width: 93%;
+        margin-top: 5px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 5px;
         .logo {
             font-size: 20px;
             font-weight: bold;
-            color: #6439ff;
+            color: #2155CD;
         }
+        box-shadow: 
+    0px 0px 4px rgba(0, 0, 0, 0.3),
+    0px 0px 2px rgba(0, 0, 0, 0.2);
     }
 
     .hr {
@@ -24,6 +36,7 @@
 
     .center {
         padding-left: 10px;
+        padding-bottom: .1px;
 
         ul {
             list-style: none;
@@ -37,12 +50,12 @@
                 cursor: pointer;
 
                 &:hover {
-                    background-color: #ece8ff; //when move the cusor ,then change the color
+                    background-color: #E8F9FD; //when move the cusor ,then change the color
                 }
 
                 .icon {
                     font-size: 18px;
-                    color:#7451f8;
+                    color:#2155CD;
                 }
 
                 span {
@@ -52,6 +65,36 @@
                     margin-left: 10px;
                 }
             }
+        }
+    }
+
+    .logout{
+        display: flex;
+        justify-content: center; /* Horizontally center the button */
+        align-items: flex-end; /* Vertically align the button to the bottom */
+        height: 10%;
+ 
+        
+        .logout-button{
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2155CD;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            cursor: pointer;
+            width:80%;
+        }
+
+        .logout-button:hover{
+            background-color: #79DAE8;
+        }
+
+        .logout-button:activr{
+            transform: scale(0.95);
         }
     }
 }

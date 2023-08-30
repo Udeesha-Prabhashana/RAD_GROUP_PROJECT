@@ -1,5 +1,5 @@
 import "./editefood.scss";
-import react, { useEffect, useState } from 'react';
+import react, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -11,33 +11,13 @@ const EditeFood = () => {
         price: '',
     });
 
-    const [existingData, setExistingData] = useState({
-        Name: '',
-        desc: '',
-        price: '',
-    });
-
-    const { id } = useParams(); 
+    const { id } = useParams();
     
     let navigate = useNavigate();
 
     // const handleChange = (e) => {
     //     setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));   //example, if the id of the username input is "username", the code will update credentials.username with the new value entered by the user.
     // };
-
-    useEffect(() => {
-        const fetchExistingData = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8880/api/food/find/${ id }`);
-                setExistingData(res.data);
-                setUserData(res.data)
-                console.log('Fetched data:', res.data);
-            } catch (error) {
-                console.error('Error fetching existing data:', error)
-            }
-        };
-        fetchExistingData();
-    }, [id]);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -54,7 +34,7 @@ const EditeFood = () => {
                 }
             }
 
-            const response = await axios.put(`http://localhost:8880/api/food/${ id }`, userData, {
+            const response = await axios.put(`http://localhost:8880/api/food/${ id }`, updatedData, {
                 withCredentials: true
             });
             console.log('User added:', response.data);
@@ -66,30 +46,27 @@ const EditeFood = () => {
     }
 
     return (
-        <div className="login">
+        <div className="update">
             <div className="lContainer">
                 <h3 className='header'> EDITE FOOD</h3>
                 <span> Food Name</span>
                 <input
                     type="text"
-                    id="Name"
-                    value={userData.Name}
+                    id= "Name"
                     onChange={handleChange}
                     className="lInput"
                 />
                 <span> Description </span>
                 <input
                     type="text"
-                    id="desc"
-                    value={userData.desc}
+                    id= "desc"
                     onChange={handleChange}
                     className="lInput"
                 />
                 <span> Price </span>
                 <input
                     type="text"
-                    id="price"
-                    value={userData.price}
+                    id= "price"
                     onChange={handleChange}
                     className="lInput"
                 />

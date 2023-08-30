@@ -31,7 +31,7 @@ const AddFoods = () => {
     }
 
     return (
-        <div className="login">
+        <div className="add">
             <div className="lContainer">
                 <h3 className='header'> ADD NEW FOOD</h3>
                 <span> Food Name</span>
