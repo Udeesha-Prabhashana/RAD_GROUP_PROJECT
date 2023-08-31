@@ -62,7 +62,7 @@ const EditeFood = () => {
     }
 
     return (
-        <div className="update">
+        <div className="update_food">
             <div className="lContainer">
                 <h3 className='header'> EDITE FOOD</h3>
                 <span> Food Name</span>

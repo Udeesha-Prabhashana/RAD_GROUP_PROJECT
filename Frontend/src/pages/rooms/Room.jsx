@@ -42,7 +42,6 @@ const Room = () => {
         }
     }
 
-
     return (
         <div className="home">
             <Sidebar />
@@ -65,9 +64,10 @@ const Room = () => {
                         <div className="roomContainer">
                             <Table>
                                 <TableHead className="table-head">
-                                        <TableCell className="table-head-font"> Room Type</TableCell>
+                                        <TableCell className="table-head-font"> Room Number</TableCell>
+                                        <TableCell className="table-head-font">  Room Type </TableCell>
                                         <TableCell className="table-head-font"> Price </TableCell>
-                                        <TableCell className="table-head-font"> Description</TableCell>
+                                        <TableCell className="table-head-font">  Availability </TableCell>
                                         <TableCell className="table-head-font">   </TableCell>
                                         <TableCell className="table-head-font">   </TableCell>
                                 </TableHead>
@@ -75,12 +75,13 @@ const Room = () => {
                                 <TableBody>
                                     <TableRow>
                                         <TableCell component="th" scope="row">
-                                            {item.room_Type}
+                                            {item.room_No}
                                         </TableCell>
-                                        <TableCell > $ {item.price}.00</TableCell>
-                                        <TableCell >{item.desc}</TableCell>
+                                        <TableCell >{item.room_type}</TableCell>
+                                        <TableCell >{item.price}</TableCell>
+                                        <TableCell> {item.availability}</TableCell>
                                         <TableCell>
-                                                  
+                                        <Button className="see_more" component={Link} to={`/editroom/${item._id}`}> See More... </Button>
                                         </TableCell>
                                         <TableCell>
                                             <Button component={Link} to={`/editroom/${item._id}`}> Edit</Button>
