@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
   customerId: {
@@ -23,8 +23,7 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  // Other booking details as needed
-});
+},{ timestamps: true });
 
 export default mongoose.model("Booking", bookingSchema);
 

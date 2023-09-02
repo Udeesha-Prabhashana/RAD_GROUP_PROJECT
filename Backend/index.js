@@ -6,6 +6,7 @@ import foodRoute from "./routes/food.js";
 import paymentRoute from "./routes/payment.js"
 import roomRoute from "./routes/room.js";
 import bookingRoute from "./routes/bookingRoutes.js";
+import customerRoute from "./routes/customer.js";
 
 import cors from "cors"; //The cors package is used in Node.js applications to handle Cross-Origin Resource Sharing (CORS) headers.
 import cookieParser from "cookie-parser";
@@ -41,6 +42,7 @@ app.use("/api/food", foodRoute);
 app.use("/api/payment", paymentRoute);
 app.use("/api/room", roomRoute);
 app.use("/api/booking", bookingRoute);
+app.use("/api/customer", customerRoute);
 
 
 app.use((err, req, res, next) => {
