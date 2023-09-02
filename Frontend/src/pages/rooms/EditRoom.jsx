@@ -1,5 +1,5 @@
 import "./editroom.scss";
-import react, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -50,7 +50,7 @@ const EditRoom = () => {
     const handleClick = async () => {
         try {
 
-            const updatedData = {};    //only update using given data, other are hear
+            const updatedData = {}; 
             for (const key in userData) {
                 if (userData.hasOwnProperty(key) && userData[key] !== '') {
                     updatedData[key] = userData[key];
@@ -60,102 +60,89 @@ const EditRoom = () => {
                 withCredentials: true
             });
             console.log('Room updated:', response.data);
-            // Optionally, you can navigate to a different page after successful addition
-            navigate('/room'); // Replace '/users' with the appropriate route
+            navigate('/room'); 
         } catch (error) {
             console.error('Error updating room:', error);
         }
     }
 
     return (
-        <div className="update_room">
-            <div className="lContainer">
-                <div className="form">
-                    <h3 className='header'> EDIT ROOM</h3>
-                    <div className="form_1">
-                        <span> Room Number </span>
-                            <input
-                                type="text"
-                                id= "room_No"
-                                value={userData.room_No}
-                                placeholder="Room Number"
-                                onChange={handleChange}
-                                className="lInput"
-                            />
-                        <span> Room Type </span>
-                            <select name="room_type" id="room_type" value={userData.room_type} onChange={handleChange} className="lInput">
-                                <option >Single</option>
-                                <option >Double</option>
-                                <option >Trible</option>
-                                <option >Family</option>
-                            </select>    
-                        <span> AC/Non-AC </span>
-                            <select name="room_ac" id="room_ac" value={userData.room_ac} onChange={handleChange} className="lInput">
-                                <option>AC</option>
-                                <option>NON-AC</option>
-                            </select>
-                        <span> Room Price </span>
-                            <input
-                                type="text"
-                                id= "price"
-                                placeholder="Price Per Night"
-                                value={userData.price}
-                                onChange={handleChange}
-                                className="lInput"
-                                />
-                        <span> Room Availability </span>
-                            <select name="availability" id="availability" value={userData.availability} onChange={handleChange} className="lInput">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>    
-                        <span> Number of Beds </span>
-                            <input
-                                type="text"
-                                id= "no_of_beds"
-                                placeholder="Number of Beds"
-                                value={userData.no_of_beds}
-                                onChange={handleChange}
-                                className="lInput"
-                            />
-                    </div>        
+        <div className="edit_room">
+            <form className='edit_room_form'>
+                <div className='edit_room_header'>
+                    <h1> EDIT ROOM</h1>
                 </div>
-                <div className="form">
-                    <div className="form_2">
+                <div className='edit_room_box'>
+                    <div className='edit_room_box1'>
+                        <span> Room Number </span><br></br>
+                        <input type="text" id="room_No" placeholder="Enter Room Number" onChange={handleChange} value={userData.room_No} className="edit_room_input_text" required />
+                        
+                        <span> Room Type </span><br></br>
+                        <select name="room_type" id="room_type" onChange={handleChange} value={userData.room_type} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Single</option>
+                            <option>Double</option>
+                            <option>Trible</option>
+                            <option>Family</option>
+                        </select>
+                        
+                        <span> AC/Non-AC </span><br></br>
+                        <select name="room_ac" id="room_ac" onChange={handleChange} value={userData.room_ac} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>AC</option>
+                            <option>NON-AC</option>
+                        </select>
+
+                        <span> Room Price </span><br></br>
+                        <input type="text" id="price" placeholder="Enter Price Per Night" onChange={handleChange} value={userData.price} className="edit_room_input_text" required />
+                        
+                        <span> Room Availability </span>
+                        <select name="availability" id="availability" onChange={handleChange} value={userData.availability} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+
+                        <span> Number of Beds </span>
+                        <input type="text" id="no_of_beds" placeholder="Enter Number of Beds" onChange={handleChange} value={userData.no_of_beds} className="edit_room_input_text" required />
+                    </div>
+                    <div className='edit_room_box2'>
                         <span> Number of Chairs </span>
-                            <input
-                                type="text"
-                                id= "no_of_chairs"
-                                placeholder="Number of Chairs"
-                                value={userData.no_of_chairs}
-                                onChange={handleChange}
-                                className="lInput"
-                            />
+                        <input type="text" id="no_of_chairs" placeholder="Enter Number of Chairs" onChange={handleChange} value={userData.no_of_chairs} className="edit_room_input_text" required />
+                        
                         <span> Television </span>
-                            <select name="tv" id="tv" value={userData.tv} onChange={handleChange} className="lInput">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>    
-                        <span> Bathroom </span>
-                            <select name="bathroom" id="bathroom" value={userData.bathroom} onChange={handleChange} className="lInput">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>    
-                        <span> Balcony </span>
-                            <select name="balcony" id="balcony" value={userData.balcony} onChange={handleChange} className="lInput">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>    
-                        <span> Free wifi </span>
-                            <select name="wifi" id="wifi" value={userData.wifi} onChange={handleChange} className="lInput">
-                                <option>Yes</option>
-                                <option>No</option>
-                            </select>    
-                        <button  onClick={handleClick} className="lButton">
-                            EDIT ROOM
-                        </button>
-                    </div>    
-                </div>    
-            </div>
+                        <select name="tv" id="tv" onChange={handleChange} value={userData.tv} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                        
+                        <span> Bathroom </span><br></br>
+                        <select name="bathroom" id="bathroom" onChange={handleChange} value={userData.bathroom} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                        
+                        <span> Balcony </span><br></br>
+                        <select name="balcony" id="balcony" onChange={handleChange} value={userData.balcony} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                        
+                        <span> Free wifi </span><br></br>
+                        <select name="wifi" id="wifi" onChange={handleChange} value={userData.wifi} className="edit_room_input_option" required>
+                            <option value="" disabled selected>Select an option</option>
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>   
+                </div> 
+                <div className='edit_room_button'>
+                    <button type="button" onClick={handleClick} className="editroom_button">Edit Room</button>
+                </div>
+            </form>
         </div>
     );
 }

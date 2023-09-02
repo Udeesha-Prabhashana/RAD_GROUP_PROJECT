@@ -1,31 +1,76 @@
-.table-head {
-    background-color: #80b7f1;
-    padding: 10px;
-    width: 100%;
-    font-weight: 20;
-}
+.room_container_1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 
-.table-head-font{
-    font-size: 20px;
-}
-.delete{
-    color: red;
-}
+    .room_box {
+        border: none;
+        padding: 10px;
 
-.addroom{
-    margin-top: 0px;
-    margin-bottom: 10px;
+        .room_search {
+            display: flex;
+            align-items: center;
+            border: 0.7px solid lightgray;
+            padding: 6px;
+            height: 30px;
+            width: 200px;
+            margin-left: 10px;
+            border-radius: 10px;
+            gap: 5px;
+            box-shadow: 
+            0px 0px 10px rgba(0, 0, 0, 0.3),
+            0px 4px 6px rgba(0, 0, 0, 0.2);
+
+            input {
+                border: none;
+                outline: none;
+                background: transparent;
+                &::placeholder {
+                    font-size: 12px;
+                }
+            }
+        }
+
+        .room_search:hover{
+            background-color: #e1ecf2;
+        }
+    
+        .add_room_button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #2155CD;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            margin-right: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 
+            0px 0px 10px rgba(0, 0, 0, 0.3),
+            0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        
+        
+        .add_room_button:hover {
+            background-color: #0AA1DD;
+        }
+        
+        .add_room_button:active {
+            transform: scale(0.95);
+        }
+    }
 }
-
-
-.roomContainer {
+    
+.room_Container_2 {
     flex: 1;
-    border: 1px solid rgb(230, 227, 227); //use give side bar boder to the right 
+    border: 1px solid rgb(230, 227, 227); 
     min-height: 100vh;
     background-color: white;
     width: 97%;
     margin-left: auto;
     margin-right: auto;
+
     table {
         border-collapse: collapse;
         width: 100%;
@@ -36,74 +81,51 @@
         text-align: left;
         border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         transition: background-color 0.3s ease-in-out;
-        // border-radius: 15px;
     }
 
     tr:hover {
         background-color: #E8F9FD; 
     }
-}
 
-.add-room-button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #2155CD;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    margin-right: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 
-    0px 0px 10px rgba(0, 0, 0, 0.3),
-    0px 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-
-.add-room-button:hover {
-    background-color: #0AA1DD;
-}
-
-.add-room-button:active {
-    transform: scale(0.95);
-}
-
-
-.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .box {
-    border: none;
-    padding: 10px;
-  }
-  
-  .search {
-    display: flex;
-    align-items: center;
-    border: 0.7px solid lightgray;
-    padding: 6px;
-    height: 30px;
-    width: 200px;
-    margin-left: 10px;
-    border-radius: 10px;
-    gap: 5px;
-    box-shadow: 
-    0px 0px 10px rgba(0, 0, 0, 0.3),
-    0px 4px 6px rgba(0, 0, 0, 0.2);
-    input {
-        border: none;
-        outline: none;
-        background: transparent;
-
-        &::placeholder {
-            font-size: 12px;
-        }
+    .table-head {
+        background-color: #80b7f1;
+        padding: 10px;
+        width: 100%;
+        font-weight: 20;
     }
-  }
-  .search:hover{
-    background-color: #e1ecf2;
-}
+
+    .table-head-font{
+        font-size: 20px;
+    }
+
+    .room_see_more{
+        color: #2155CD;
+    }
+
+    .room_edit{
+        color: #2155CD;
+    }
+
+    .room_delete{
+        color: red;
+    }
+    
+    .green-availability {
+        color: rgb(18, 217, 18);
+    }
+        
+    .red-availability {
+    color: red;
+    }
+    
+    .green-availability, .red-availability {
+        display: inline-block; 
+        vertical-align: middle; 
+        margin-right: 8px;
+    }
+}    
+
+
+
+
+  
