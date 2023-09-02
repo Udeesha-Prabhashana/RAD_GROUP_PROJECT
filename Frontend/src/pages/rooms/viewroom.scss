@@ -1,18 +1,18 @@
-.add_room {
+.view_room {
     display: flex;
     justify-content: center; 
     align-items: center; 
     height: 100vh; 
-    background-image: url('../images/wallpaper1.jpg');
+    background-image: url('../images/wallpaper3.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
     opacity: 1;
     
-    .add_room_form {
+    .view_room_form {
         width: 1000px; 
         padding: 30px;
-        height: 560px;
+        height: 510px;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.2);
@@ -21,7 +21,7 @@
         border-top: 1px solid rgba(255, 255, 255, 0.2);
         border-left: 1px solid rgba(255, 255, 255, 0.2);
 
-        .add_room_header {
+        .view_room_header {
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -32,7 +32,7 @@
             margin-bottom: auto;
         }
 
-        .add_room_box{
+        .view_room_box{
             border: none;
             padding: 10px;
             display: flex;
@@ -43,39 +43,29 @@
             font-size: large;
         }
 
-        .add_room_box1{
+        .view_room_box1{
             flex: 1;
         }
 
-        .add_room_box2{
+        .view_room_box2{
             flex: 1;
         }
 
-        .add_room_input_text{
+        .view_room_text{
             width: 90%;
             margin-bottom: 9px;
-            margin-left: auto;
-            margin-right: auto;
             padding: 10px;
             border: 2px solid #ccc;
             border-radius: 6px;
         }
 
-        .add_room_input_option{
-            width: 94%;
-            margin-bottom: 9px;
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 6px;
-        }
-
-        .add_room_button{
+        .view_room_button{
             display: flex;
             justify-content: center;
             align-items: center;
             margin-top: 10px;
 
-            .addroom_button{
+            .viewroom_button{
                 display: block;
                 box-shadow:  0px 0px 10px rgba(0, 0, 0, 0.3), 0px 4px 6px rgba(0, 0, 0, 0.2);
                 display: inline-block;
@@ -93,7 +83,7 @@
                 
             }
         
-            .addroom_button:hover {
+            .viewroom_button:hover {
                 background-color: #0056b3;
             }
         }
