@@ -7,13 +7,10 @@ import EditeFood from "./pages/foods/EditeFood";
 import Payment from "./pages/payments/Payment";
 import CreatePayment from "./pages/payments/CreatePayment";
 import UpdatePayment from "./pages/payments/UpdatePayment";
-
-
-
 import Room from "./pages/rooms/Room";
 import AddRooms from "./pages/rooms/AddRoom";
 import EditRoom from "./pages/rooms/EditRoom";
-
+import ViewRoom from "./pages/rooms/ViewRoom";
 
 function App() {
   return (
@@ -27,10 +24,10 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/createpayment" element={<CreatePayment />} />
         <Route path="/updatepayment/:id" element={<UpdatePayment />} />
-
         <Route path="/room" element={<Room />} />
         <Route path="/addroom" element={<AddRooms />} />
         <Route path="/editroom/:id" element={<EditRoom />} />
+        <Route path="/viewroom/:id" element={<ViewRoom />} />
       </Routes>
     </BrowserRouter>
   );
