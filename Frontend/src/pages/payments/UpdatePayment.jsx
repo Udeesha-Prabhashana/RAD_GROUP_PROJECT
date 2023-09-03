@@ -6,13 +6,13 @@ import axios from 'axios';
 const UpdatePayment = () => {
 
     const [userData, setUserData] = useState({
-        guestID: '',
+        NIC: '',
         payment: '',
         date: '',
     });
 
     const [existingData, setExistingData] = useState({
-        guestID: '',
+        NIC: '',
         payment: '',
         date: '',
     });
@@ -65,37 +65,44 @@ const UpdatePayment = () => {
 
     return (
         <div className="update_payment">
-            <div className="lContainer">
-                <h3 className='header'> Update Payment</h3>
-                <span>GuestID</span>
-                <input
-                    type="text"
-                    id="guestID"
-                    value={userData.guestID}
-                    placeholder='Enter guest ID'
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span>Payment</span>
-                <input
-                    type="text"
-                    id="payment"
-                    value={userData.payment}
-                    placeholder='Amount'
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span>Date</span>
-                <input
-                    type="text"
-                    id="date"
-                    value={userData.date}
-                    placeholder='DD/MM/YYYY'
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <button  onClick={handleClick} className="lButton">Update Payment</button>
-            </div>
+            <form className="update_payment_form">
+                <div className="update_payment_box">
+                    <h3> Update Payment</h3>
+                </div>
+                <div className="update_payment_box">
+                    <span>NIC</span>
+                    <input
+                        type="text"
+                        id="NIC"
+                        value={userData.NIC}
+                        placeholder='Enter guest ID'
+                        onChange={handleChange}
+                        className="update_payment_input_text"
+                    /> <br/><br/>
+                    <span>Payment</span>
+                    <input
+                        type="text"
+                        id="payment"
+                        value={userData.payment}
+                        placeholder='Amount'
+                        onChange={handleChange}
+                        className="update_payment_input_text"
+                    /> <br/><br/>
+                    <span>Date</span>
+                    <input
+                        type="date"
+                        id="date"
+                        value={userData.date}
+                        placeholder='DD/MM/YYYY'
+                        onChange={handleChange}
+                        className="update_payment_input_text"
+                    /> <br/><br/>
+                </div>
+                <div className="update_payment_button">
+                    <button type="button" onClick={handleClick} className="updatepayment_button">Update Payment</button>
+                </div>
+                
+            </form>
         </div>
     );
 }
