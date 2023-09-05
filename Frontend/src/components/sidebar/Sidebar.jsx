@@ -15,6 +15,9 @@ const Sidebar = () => {
     const handleClick_room = () => {
         navigate('/room');
     }
+    const handleClick_bookings = () => {
+        navigate('/bookings');
+    }
     const handleClick_payment = () => {
         navigate('/payment');
     }
@@ -36,7 +39,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <BookmarkAddedIcon className="icon"/>
-                        <span> Booking </span>
+                        <span onClick={handleClick_bookings}> Booking </span>
                     </li>
                     <li>
                         <PaidOutlinedIcon className="icon"/>

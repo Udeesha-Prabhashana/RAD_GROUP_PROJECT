@@ -1,6 +1,6 @@
 import express from "express"; 
 
-import { getBooking, getBookings, createBooking, updateBookin, deleteBooking, searchAvailableRooms } from "../controllers/bookingController.js";
+import { getBooking, getBookings, createBooking, updateBookin, deleteBooking} from "../controllers/bookingController.js";
 
 const router = express.Router();
 
@@ -18,6 +18,5 @@ router.get("/", getBookings);
 //get specific booking
 router.get("/find/:id", getBooking);
 
-router.post("/searchAvailableRooms", searchAvailableRooms);
 
 export default router
