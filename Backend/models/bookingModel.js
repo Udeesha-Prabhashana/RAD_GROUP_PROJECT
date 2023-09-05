@@ -1,22 +1,26 @@
 import mongoose from "mongoose";
 
 const bookingSchema = new mongoose.Schema({
+  bookingId: {
+    type: String, //mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
   customerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Customer', // Reference to the Guests table
+    type:String, //mongoose.Schema.Types.ObjectId,
+    //ref: 'Customer', // Reference to the Guests table
     required: true,
   },
   roomId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Room', // Reference to the Rooms table
+    type:String, //mongoose.Schema.Types.ObjectId,
+    //ref: 'Room', // Reference to the Rooms table
     required: true,
   },
   checkInDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   checkOutDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   totalPrice: {

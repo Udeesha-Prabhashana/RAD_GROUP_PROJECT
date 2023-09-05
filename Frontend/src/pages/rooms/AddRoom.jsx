@@ -36,7 +36,7 @@ const AddRooms = () => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await axios.post (
         'http://localhost:8880/api/room',
         userData,
         {

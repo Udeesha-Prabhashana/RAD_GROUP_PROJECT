@@ -11,6 +11,7 @@ import Room from "./pages/rooms/Room";
 import AddRooms from "./pages/rooms/AddRoom";
 import EditRoom from "./pages/rooms/EditRoom";
 import ViewRoom from "./pages/rooms/ViewRoom";
+import BookingMain from "./pages/bookings/BookingMain";
 
 function App() {
   return (
@@ -28,6 +29,8 @@ function App() {
         <Route path="/addroom" element={<AddRooms />} />
         <Route path="/editroom/:id" element={<EditRoom />} />
         <Route path="/viewroom/:id" element={<ViewRoom />} />
+
+        <Route path="/bookings" element={<BookingMain />} />
       </Routes>
     </BrowserRouter>
   );
