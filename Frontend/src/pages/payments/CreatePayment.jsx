@@ -6,7 +6,7 @@ import "./createPayment.scss";
 const CreatePayment = () => {
 
     const [userData, setUserData] = useState({
-        guestID: '',
+        NIC: '',
         payment: '',
         date: '',
     });
