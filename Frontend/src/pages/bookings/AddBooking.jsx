@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-
 const AddBooking = async (newRow) => {
-    //console.log(newRow);
     try {
         const response = await axios.post (
             'http://localhost:8880/api/booking',
