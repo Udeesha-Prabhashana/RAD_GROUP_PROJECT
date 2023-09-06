@@ -4,11 +4,9 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddBooking from './AddBooking'
-import UpdateBooking from './UpdateBooking';
-import DeleteBooking from './DeleteBooking';
-
-
+import AddBooking from './AddBooking' //////////////////Update Here
+import UpdateBooking from './UpdateBooking'; /////////////////Update Here
+import DeleteBooking from './DeleteBooking'; /////////////////Update Here
 import {
   Box,
   Typography,
@@ -28,10 +26,10 @@ import { Delete, Edit } from '@mui/icons-material';
 
 const TestBookings = () => {
     const { data, loading, error, setData } = useFetch(
-        `http://localhost:8880/api/booking`
+        `http://localhost:8880/api/booking` //////////////////update this URL
       );
   
-      const [tableData, setTableData] =useState([]); //Current table data
+      const [tableData, setTableData] =useState([]); //Current showing table data
       const [validationErrors, setValidationErrors] = useState({});
       const [createModalOpen, setCreateModalOpen] = useState(false);
   
@@ -41,10 +39,10 @@ const TestBookings = () => {
       );
 
 
-      const handleCreateNewRow = async (values) => {
+      const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
-          // Assuming AddBooking returns the newly created booking data
-          const responseData = await AddBooking(values);
+
+          const responseData = await AddBooking(values); //////////////////////Update: Replace AddBooking
       
           // Update the tableData state with the new data
           setTableData((prevData) => [...prevData, values]);
@@ -57,20 +55,12 @@ const TestBookings = () => {
         }
       };
       
-
-      // const handleCreateNewRow = (values) => {
-      // tableData.push(values);
-      //  const responseData=AddBooking(values); //After updating mongo db database return that values to here
-      //  setTableData((prevData) => [...prevData, responseData]);//using mongodb returning values we update our table data
-      // };
-
-      const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {
+      const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {//This function updates row and sync with mongodb
         if (!Object.keys(validationErrors).length) {
           const updatedTableData = [...tableData]; // Create a copy of the original data
           updatedTableData[row.index] = values; // Update the specific row
           setTableData(updatedTableData); // Update the state with the modified data
-          const responseData = UpdateBooking(values);
-          // Optionally, you can handle errors here and revert the change in case of an error
+          const responseData = UpdateBooking(values);////////////////////////////////// Update: Replace Update Booking
           exitEditingMode();
         }
       };
@@ -80,14 +70,14 @@ const TestBookings = () => {
         setValidationErrors({});
       };
 
-      const handleDeleteRow = useCallback(
+      const handleDeleteRow = useCallback( //This function is used to delete a row
         async (row) => {
-          if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) {
+          if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
             return;
           }
           try {
             // Make the delete request here, and then update the tableData if successful
-            await DeleteBooking(row.getValue('_id'));
+            await DeleteBooking(row.getValue('_id'));//////////////////////Update: Replace the DeleteBooking
             const updatedTableData = [...tableData];
             updatedTableData.splice(row.index, 1); // Remove the deleted row
             setTableData(updatedTableData); // Update the state with the modified data
@@ -125,13 +115,14 @@ const TestBookings = () => {
         },
         [validationErrors],
       );
-  //should be memoized or stable
-  const columns = useMemo(
-    () => [
+
+  const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+    () => [ 
       {
         accessorKey: '_id', 
         header: 'Record ID',
         size: 50,
+        hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
       },
       {
         accessorKey: 'bookingId', 
@@ -167,7 +158,7 @@ const TestBookings = () => {
         accessorKey: 'updatedAt',
         header: 'Updated At',
         size: 150,
-        hidden: true,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
         
       },
     ],
@@ -196,11 +187,11 @@ const TestBookings = () => {
     // Create a download link and trigger the download
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'bookings.csv';
+    link.download = 'Booking_Report.csv'; //////////////////Update: You can give any name here for downloading document
     link.click();
   };
 
-  return (
+  return ( //Full Table is handle by here
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
@@ -215,10 +206,10 @@ const TestBookings = () => {
                 size: 120,
               },
             }}
-            columns={columns}
-            data={tableData}
+            columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
+            data={tableData} //tableData will show as the data in the table
             initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
-            editingMode="modal" //default
+            editingMode="modal" 
             enableColumnOrdering
             enableEditing
             disableRowSelection
@@ -234,7 +225,9 @@ const TestBookings = () => {
                   gridTemplateColumns: '1fr 1fr',
                   width: '100%',
                 }}
+              ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
               >
+                
                 <Typography>Record ID: {row.original._id}</Typography>
                 <Typography>Total Price: {row.original.totalPrice}</Typography>
                 <Typography>Updated At: {row.original.updatedAt}</Typography>
@@ -295,7 +288,6 @@ const TestBookings = () => {
 
 
 
-//example of creating a mui dialog modal for creating new rows
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
@@ -304,14 +296,12 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     }, {}),
   );
   const handleSubmit = () => {
-    //put your validation logic here
     onSubmit(values);
     onClose();
   };
 
-  // Define the columns you want to include in the form
+  ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
   const includedColumns = columns.filter((column) => {
-    // Include columns except 'updatedAt' and 'totalPrice'
     return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt';
   });
 
@@ -343,7 +333,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       <DialogActions sx={{ p: '1.25rem' }}>
         <Button onClick={onClose}>Cancel</Button>
         <Button color="secondary" onClick={handleSubmit} variant="contained">
-          Create New Account
+          Create New Booking
         </Button>
       </DialogActions>
     </Dialog>
