@@ -1,112 +1,395 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useMemo,useEffect,useState } from 'react';
+import { MaterialReactTable } from 'material-react-table';
 import Sidebar from "../../components/sidebar/Sidebar";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import AddIcon from '@mui/icons-material/Add';
+import AddRoom from './AddRoom' //////////////////Update Here
+import UpdateRoom from './UpdateRoom'; /////////////////Update Here
+import DeleteRoom from './DeleteRoom'; /////////////////Update Here
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
-import "./room.scss";
-
-const Room = () => {
-  const { data, loading, error, setData } = useFetch(
-    `http://localhost:8880/api/room`
-  );
-  const [updatedData, setUpdatedData] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); 
-  let navigate = useNavigate();
-
-  const handleClick1 = () => {
-    navigate("/addroom");
-  }
-
-  useEffect(() => {
-    setUpdatedData(data);
-  }, [data]);
-
-  const handleClick2 = async (id) => {
-    try {
-      const response = await axios.delete(`http://localhost:8880/api/room/${id}`, {
-        withCredentials: true,
-      });
-      console.log("Room deleted:", response.data);
-      const response2 = await axios.get(`http://localhost:8880/api/room`);
-      console.log("view all rooms", response2.data);
-      setUpdatedData(response2.data);
-    } catch (error) {
-      console.error("Error adding room:", error);
-    }
-  }
+import {
+  Box,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+} from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
 
 
-  const filterData = () => {
-    if (searchQuery === "") {
-      return updatedData; 
-    } else {
-      return updatedData.filter((item) =>
-        item.room_No.toLowerCase().includes(searchQuery.toLowerCase())
+
+const Rooms = () => {
+    const { data, loading, error, setData } = useFetch(
+        `http://localhost:8880/api/room` //////////////////update this URL
       );
-    }
+  
+      const [tableData, setTableData] =useState([]); //Current showing table data
+      const [validationErrors, setValidationErrors] = useState({});
+      const [createModalOpen, setCreateModalOpen] = useState(false);
+  
+      useEffect(() => {
+          setTableData(data);  //Set table data: data is the returning mongodb values after fetching database
+        }, [data]
+      );
+
+
+      const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
+        try {
+
+          const responseData = await AddRoom(values); //////////////////////Update: Replace AddBooking
+      
+          // Update the tableData state with the new data
+          setTableData((prevData) => [...prevData, values]);
+      
+          // Close the create modal or perform other necessary actions
+          setCreateModalOpen(false);
+        } catch (error) {
+          console.error('Error creating a new row:', error);
+          // Handle the error appropriately, e.g., show an error message to the user
+        }
+      };
+      
+      const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {//This function updates row and sync with mongodb
+        if (!Object.keys(validationErrors).length) {
+          const updatedTableData = [...tableData]; // Create a copy of the original data
+          updatedTableData[row.index] = values; // Update the specific row
+          setTableData(updatedTableData); // Update the state with the modified data
+          const responseData = UpdateRoom(values);////////////////////////////////// Update: Replace Update Booking
+          exitEditingMode();
+        }
+      };
+      
+
+      const handleCancelRowEdits = () => {
+        setValidationErrors({});
+      };
+
+      const handleDeleteRow = useCallback( //This function is used to delete a row
+        async (row) => {
+          if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
+            return;
+          }
+          try {
+            // Make the delete request here, and then update the tableData if successful
+            await DeleteRoom(row.getValue('_id'));//////////////////////Update: Replace the DeleteBooking
+            const updatedTableData = [...tableData];
+            updatedTableData.splice(row.index, 1); // Remove the deleted row
+            setTableData(updatedTableData); // Update the state with the modified data
+          } catch (error) {
+            console.error('Error deleting row:', error);
+            // Handle the error if the delete operation fails
+          }
+        },
+        [tableData],
+      );
+
+      const getCommonEditTextFieldProps = useCallback(
+        (cell) => {
+          return {
+            error: !!validationErrors[cell.id],
+            helperText: validationErrors[cell.id],
+            onBlur: (event) => {
+              const isValid =
+                  validateRequired(event.target.value);
+              if (!isValid) {
+                //set validation error for cell if invalid
+                setValidationErrors({
+                  ...validationErrors,
+                  [cell.id]: `${cell.column.columnDef.header} is required`,
+                });
+              } else {
+                //remove validation error for cell if valid
+                delete validationErrors[cell.id];
+                setValidationErrors({
+                  ...validationErrors,
+                });
+              }
+            },
+          };
+        },
+        [validationErrors],
+      );
+
+  const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+    () => [ 
+      {
+        accessorKey: '_id', 
+        header: 'Record ID',
+        size: 50,
+        hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'room_No', 
+        header: 'Room Number',
+        size: 100,
+      },
+      {
+        accessorKey: 'room_type', 
+        header: 'Room Type',
+        size: 50,
+      },
+      {
+        accessorKey: 'room_ac', 
+        header: 'AC',
+        size: 100,
+      },
+      {
+        accessorKey: 'price',
+        header: 'Price Per Night',
+        size: 150,
+      },
+      {
+        accessorKey: 'availability',
+        header: 'Availability',
+        size: 150,
+      },
+      {
+        accessorKey: 'no_of_beds',
+        header: 'Number of Beds',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'no_of_chairs',
+        header: 'Number of Chairs',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'tv',
+        header: 'Tv',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'bathroom',
+        header: 'Bathroom',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'balcony',
+        header: 'Balcony',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+      {
+        accessorKey: 'wifi',
+        header: 'Wifi',
+        size: 150,
+        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+      },
+    ],
+    [getCommonEditTextFieldProps],
+  );
+
+    const exportToCsv = () => {
+    const csvData = [];
+
+    // Add header row
+    const headerRow = columns.map((column) => column.header);
+    csvData.push(headerRow);
+
+    // Add data rows
+    tableData.forEach((row) => {
+      const rowData = columns.map((column) => row[column.accessorKey]);
+      csvData.push(rowData);
+    });
+
+    // Convert to CSV string
+    const csvContent = csvData.map((row) => row.join(',')).join('\n');
+
+    // Create a Blob containing the CSV data
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    // Create a download link and trigger the download
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'Room_Report.csv'; //////////////////Update: You can give any name here for downloading document
+    link.click();
   };
 
-  return (
+  return ( //Full Table is handle by here
     <div className="home">
       <Sidebar />
       <div className="homeContainer">
-        <div className="room_container_1">
-          <div className="room_box">
-            <div className="room_search">
-              <input type="text" placeholder=" Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  />
-              <SearchOutlinedIcon />
-            </div>
-          </div>
-          <div className="room_box">
-            <button className="add_room_button" onClick={handleClick1}> ADD ROOM </button>
-          </div>
+        <div style={{ maxWidth: '100%' }}>
+        <>
+          <MaterialReactTable
+            displayColumnDefOptions={{
+              'mrt-row-actions': {
+                muiTableHeadCellProps: {
+                  align: 'center',
+                },
+                size: 120,
+              },
+            }}
+            columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
+            data={tableData} //tableData will show as the data in the table
+            initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, bathroom: false, balcony: false, wifi: false }}}
+            editingMode="modal" 
+            enableColumnOrdering
+            enableEditing
+            disableRowSelection
+            enableStickyHeader
+            positionToolbarAlertBanner="bottom"
+            onEditingRowSave={handleSaveRowEdits}
+            onEditingRowCancel={handleCancelRowEdits}
+            renderDetailPanel={({ row }) => (
+              <Box
+                sx={{
+                  display: 'grid',
+                  margin: 'auto',
+                  gridTemplateColumns: '1fr 1fr',
+                  width: '100%',
+                }}
+              ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
+              >
+                <Typography>Record ID: {row.original._id}</Typography>
+                <Typography>Number of Beds: {row.original.no_of_beds}</Typography>
+                <Typography>Number of Chairs: {row.original.no_of_chairs}</Typography>
+                <Typography>Tv: {row.original.tv}</Typography>
+                <Typography>Bathroom: {row.original.bathroom}</Typography>
+                <Typography>Balcony: {row.original.balcony}</Typography>
+                <Typography>Wifi: {row.original.wifi}</Typography>
+              </Box>
+            )}
+            
+            renderTopToolbarCustomActions={({ table }) => (
+              <Box
+                sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
+              >
+                <Button
+                  color="secondary"
+                  onClick={() => setCreateModalOpen(true)}
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                >
+                  Add Room
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={exportToCsv}
+                  startIcon={<FileDownloadIcon />}
+                  variant="contained"
+                >
+                  Export All Data
+                </Button>
+                {/* Other buttons for exporting */}
+              </Box>
+            )}
+            renderRowActions={({ row, table }) => (
+              <Box sx={{ display: 'flex', gap: '1rem' }}>
+                <Tooltip arrow placement="left" title="Edit">
+                  <IconButton onClick={() => table.setEditingRow(row)}>
+                    <Edit />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip arrow placement="right" title="Delete">
+                  <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            )}
+
+          />
+          <CreateNewAccountModal
+            columns={columns}
+            open={createModalOpen}
+            onClose={() => setCreateModalOpen(false)}
+            onSubmit={handleCreateNewRow}
+          />
+        </>
         </div>
-        {loading ? (
-          "loading"
-        ) : (
-          <>
-            <div className="room_Container_2">
-              <Table>
-                <TableHead className="table-head">
-                  <TableCell className="table-head-font">Room Number</TableCell>
-                  <TableCell className="table-head-font">Room Type</TableCell>
-                  <TableCell className="table-head-font">Price</TableCell>
-                  <TableCell className="table-head-font">Availability</TableCell>
-                  <TableCell className="table-head-font"></TableCell>
-                  <TableCell className="table-head-font"></TableCell>
-                  <TableCell className="table-head-font"></TableCell>
-                </TableHead>
-                <TableBody>
-                  {filterData().map((item) => (
-                    <TableRow key={item._id}>
-                      <TableCell component="th" scope="row"> {item.room_No} </TableCell>
-                      <TableCell> {item.room_type}</TableCell>
-                      <TableCell> {isNaN(item.price) ? '' : parseFloat(item.price).toLocaleString('en-US', { style: 'currency', currency: 'USD' })} </TableCell>
-                      <TableCell> <FiberManualRecordIcon className={item.availability === 'Yes' ? 'green-availability' : 'red-availability'} /> <p className={item.availability === 'Yes' ? 'green-availability' : 'red-availability'} >{item.availability}</p> </TableCell>
-                      <TableCell> </TableCell>
-                      <TableCell> </TableCell>
-                      <TableCell> <a className="room_see_more" href={`/viewroom/${item._id}`}><RemoveRedEyeIcon/></a> <a className="room_edit" href={`/editroom/${item._id}`}> <EditIcon/></a> <DeleteIcon className="room_delete" onClick={() => handleClick2(item._id)}/> </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </>
-        )}
       </div>
     </div>
   );
 };
 
-export default Room;
+
+
+export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  
+  const [values, setValues] = useState(() =>
+    columns.reduce((acc, column) => {
+      acc[column.accessorKey ?? ''] = '';
+      return acc;
+    }, {}),
+  );
+  const handleSubmit = () => {
+    onSubmit(values);
+    onClose();
+  };
+
+  ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
+  const includedColumns1 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv'  && column.accessorKey !== 'bathroom' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
+  });
+  const includedColumns2 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'room_type' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs';
+  });
+
+  return (
+    <Dialog open={open}>
+      <DialogTitle textAlign="center">Add New Booking</DialogTitle>
+      <DialogContent>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <Stack
+            sx={{
+              width: '100%',
+              minWidth: { xs: '300px', sm: '360px', md: '400px' },
+              gap: '1.5rem',
+            }}
+          >
+            {includedColumns1.map((column) => (
+              <TextField
+                key={column.accessorKey}
+                label={column.header}
+                name={column.accessorKey}
+                onChange={(e) =>
+                  setValues({ ...values, [e.target.name]: e.target.value })
+                }
+              />
+            ))}
+            {includedColumns2.map((column) => (
+              <FormControl key={column.accessorKey}>
+                <InputLabel>{column.header}</InputLabel>
+                <Select
+                  label={column.header}
+                  name={column.accessorKey}
+                  value={values[column.accessorKey]}
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                >
+                  <MenuItem value="Yes">Yes</MenuItem>
+                  <MenuItem value="No">No</MenuItem>
+                </Select>
+              </FormControl>
+            ))}
+          </Stack>
+        </form>
+      </DialogContent>
+      <DialogActions sx={{ p: '1.25rem' }}>
+        <Button onClick={onClose}>Cancel</Button>
+        <Button color="secondary" onClick={handleSubmit} variant="contained">
+          Create New Booking
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+
+const validateRequired = (value) => !!value.length;
+
+export default Rooms;
