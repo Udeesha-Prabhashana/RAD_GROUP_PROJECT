@@ -1,7 +1,19 @@
 import Room from "../models/Room.js";
 
 export const createRoom = async (req, res, next) => {
-  const newRoom = new Room(req.body);
+  const newRoom = new Room({
+    room_No: req.body.room_No,
+    room_type: req.body.room_type,
+    room_ac: req.body.room_ac,
+    price: req.body.price,
+    availability: req.body.availability,
+    no_of_beds: req.body.no_of_beds,
+    no_of_chairs: req.body.no_of_chairs,
+    tv: req.body.tv,
+    bathroom: req.body.bathroom,
+    balcony: req.body.balcony,
+    wifi: req.body.wifi,
+  });
 
   try {
     const savedRoom = await newRoom.save();
