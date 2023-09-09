@@ -40,17 +40,17 @@ export const login = async (req, res, next) => {
       return next(createError(403, "You don't have admin privileges"));
     }
     
-    console.log("user._id:", user._id);
-    console.log("user.isAdmin:", user.isAdmin);
-    console.log("process.env.JWT_SECRET:", process.env.JWT_SECRET);
+    // console.log("user._id:", user._id);
+    // console.log("user.isAdmin:", user.isAdmin);
+    // console.log("process.env.JWT_SECRET:", process.env.JWT_SECRET);
 
     const token = jwt.sign(
       {
         id: user._id,
-        isAdmin: user.isAdmin
+        isAdmin: user.isAdmin,
       },
-      process.env.JWT_SECRET
-    ); //"sdfsdfs" shoud have change but i can not install openssl
+      process.env.JWT_SECRET //"sdfsdfs"
+    ); 
 
     const { password, isAdmin , ...otherDetails } = user._doc; //excluding the password and isAdmin properties.
 
@@ -60,6 +60,7 @@ export const login = async (req, res, next) => {
       })
       .status(200)
       .json({ isAdmin, ...otherDetails });
+      // console.log(token);
   } catch (err) {
     next(err);
   }
