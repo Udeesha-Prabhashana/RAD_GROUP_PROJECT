@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-const AddRoom = async (newRow) => {
+const AddBooking = async (newRow) => {
     try {
         const response = await axios.post (
-            'http://localhost:8880/api/room',
+            'http://localhost:8880/api/booking',
             newRow,
            
           );
-      console.log('Room added:', response.data)
+      console.log('Booking added:', response.data)
       return response.data
 
     } catch (error) {
@@ -17,5 +17,5 @@ const AddRoom = async (newRow) => {
   };
 
   
-export default AddRoom;
+export default AddBooking;
   
