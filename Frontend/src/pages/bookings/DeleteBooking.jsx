@@ -3,7 +3,9 @@ import axios from 'axios';
 const DeleteBooking = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8880/api/booking/${id}`, 
+        `http://localhost:8880/api/booking/${ id }`, {
+          withCredentials: true
+        }
       );
       console.log('Booking deleted:', response.data);
       return response;
