@@ -4,7 +4,9 @@ const AddBooking = async (newRow) => {
     try {
         const response = await axios.post (
             'http://localhost:8880/api/booking',
-            newRow,
+          newRow, {
+              withCredentials: true
+            }
            
           );
       console.log('Booking added:', response.data)

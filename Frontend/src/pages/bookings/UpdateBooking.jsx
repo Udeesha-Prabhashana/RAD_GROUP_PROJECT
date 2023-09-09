@@ -4,7 +4,9 @@ const UpdateBooking = async (updatedRow) => {
     try {
       const response = await axios.put(
         `http://localhost:8880/api/booking/${updatedRow._id}`, 
-        updatedRow, 
+        updatedRow, {
+          withCredentials: true
+        } 
       );
       console.log('Booking updated:', response.data);
       return response;
