@@ -4,7 +4,9 @@ const AddRoom = async (newRow) => {
     try {
         const response = await axios.post (
             'http://localhost:8880/api/room',
-            newRow,
+            newRow, {
+              withCredentials: true
+            }
            
           );
       console.log('Room added:', response.data)

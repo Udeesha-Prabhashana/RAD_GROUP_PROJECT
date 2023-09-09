@@ -24,8 +24,6 @@ import {
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 
-
-
 const Rooms = () => {
     const { data, loading, error, setData } = useFetch(
         `http://localhost:8880/api/room` //////////////////update this URL
@@ -326,10 +324,33 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     }, {}),
   );
   const handleSubmit = () => {
-    onSubmit(values);
-    onClose();
+    const isValid = validateForm();
+    if (isValid) {
+      onSubmit(values);
+      onClose();
+    }
+    
   };
 
+  const [validationErrors, setValidationErrors] = useState({});
+  const validateForm = () => {
+    const errors = {};
+  
+    includedColumns1.forEach((column) => {
+      if (!values[column.accessorKey]) {
+        errors[column.accessorKey] = `${column.header} is required`;
+      }
+    });
+  
+    includedColumns2.forEach((column) => {
+      if (!values[column.accessorKey]) {
+        errors[column.accessorKey] = `${column.header} is required`;
+      }
+    });
+  
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
   const includedColumns1 = columns.filter((column) => {
     return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv'  && column.accessorKey !== 'bathroom' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
@@ -358,6 +379,8 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 onChange={(e) =>
                   setValues({ ...values, [e.target.name]: e.target.value })
                 }
+                error={validationErrors[column.accessorKey] ? true : false}
+                helperText={validationErrors[column.accessorKey]}
               />
             ))}
             {includedColumns2.map((column) => (
@@ -370,6 +393,8 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   onChange={(e) =>
                     setValues({ ...values, [e.target.name]: e.target.value })
                   }
+                  error={validationErrors[column.accessorKey] ? true : false}
+                  helperText={validationErrors[column.accessorKey]}
                 >
                   <MenuItem value="Yes">Yes</MenuItem>
                   <MenuItem value="No">No</MenuItem>
