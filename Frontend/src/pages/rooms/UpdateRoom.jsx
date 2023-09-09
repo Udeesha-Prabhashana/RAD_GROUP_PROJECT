@@ -4,7 +4,9 @@ const UpdateRoom = async (updatedRow) => {
     try {
       const response = await axios.put(
         `http://localhost:8880/api/room/${updatedRow._id}`, 
-        updatedRow, 
+        updatedRow, {
+          withCredentials: true
+        }
       );
       console.log('Room updated:', response.data);
       return response;
