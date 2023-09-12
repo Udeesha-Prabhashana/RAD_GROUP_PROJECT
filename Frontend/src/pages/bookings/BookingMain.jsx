@@ -193,7 +193,7 @@ const TestBookings = () => {
 
   return ( //Full Table is handle by here
     <div className="home">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="homeContainer">
         <div style={{ maxWidth: '100%' }}>
         <>
@@ -288,7 +288,10 @@ const TestBookings = () => {
 
 
 
+
+
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  
   const [values, setValues] = useState(() =>
     columns.reduce((acc, column) => {
       acc[column.accessorKey ?? ''] = '';
@@ -296,14 +299,38 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     }, {}),
   );
   const handleSubmit = () => {
-    onSubmit(values);
-    onClose();
+    const isValid = validateForm();
+    if (isValid) {
+      onSubmit(values);
+      onClose();
+    }
+    
   };
 
+  const [validationErrors, setValidationErrors] = useState({});
+  const validateForm = () => {
+    const errors = {};
+  
+    includedColumns.forEach((column) => {
+      if (!values[column.accessorKey]) {
+        errors[column.accessorKey] = `${column.header} is required`;
+      }
+    });
+  
+    includedColumns.forEach((column) => {
+      if (!values[column.accessorKey]) {
+        errors[column.accessorKey] = `${column.header} is required`;
+      }
+    });
+  
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
   ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
   const includedColumns = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt';
-  });
+    return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
+   });
+
 
   return (
     <Dialog open={open}>
@@ -325,6 +352,8 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 onChange={(e) =>
                   setValues({ ...values, [e.target.name]: e.target.value })
                 }
+                error={validationErrors[column.accessorKey] ? true : false}
+                helperText={validationErrors[column.accessorKey]}
               />
             ))}
           </Stack>

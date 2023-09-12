@@ -192,7 +192,7 @@ const TestBookings = () => {
 
     return ( //Full Table is handle by here
         <div className="home">
-            <Sidebar />
+            {/* <Sidebar /> */}
             <div className="homeContainer">
                 <div style={{ maxWidth: '100%' }}>
                 <>
@@ -287,57 +287,85 @@ const TestBookings = () => {
 
 
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
+  
     const [values, setValues] = useState(() =>
-        columns.reduce((acc, column) => {
-            acc[column.accessorKey ?? ''] = '';
-            return acc;
-        }, {}),
+      columns.reduce((acc, column) => {
+        acc[column.accessorKey ?? ''] = '';
+        return acc;
+      }, {}),
     );
     const handleSubmit = () => {
+      const isValid = validateForm();
+      if (isValid) {
         onSubmit(values);
         onClose();
+      }
+      
     };
-
+  
+    const [validationErrors, setValidationErrors] = useState({});
+    const validateForm = () => {
+      const errors = {};
+    
+      includedColumns.forEach((column) => {
+        if (!values[column.accessorKey]) {
+          errors[column.accessorKey] = `${column.header} is required`;
+        }
+      });
+    
+      includedColumns.forEach((column) => {
+        if (!values[column.accessorKey]) {
+          errors[column.accessorKey] = `${column.header} is required`;
+        }
+      });
+    
+      setValidationErrors(errors);
+      return Object.keys(errors).length === 0;
+    };
     ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
     const includedColumns = columns.filter((column) => {
-        return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt';
-    });
-
+      return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
+     });
+  
+  
     return (
-        <Dialog open={open}>
-            <DialogTitle textAlign="center">Add New Customer</DialogTitle>
-            <DialogContent>
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <Stack
-                        sx={{
-                            width: '100%',
-                            minWidth: { xs: '300px', sm: '360px', md: '400px' },
-                            gap: '1.5rem',
-                        }}
-                    >
-                        {includedColumns.map((column) => (
-                            <TextField
-                                key={column.accessorKey}
-                                label={column.header}
-                                name={column.accessorKey}
-                                onChange={(e) =>
-                                  setValues({ ...values, [e.target.name]: e.target.value })
-                                }
-                            />
-                        ))}
-                    </Stack>
-                </form>
-            </DialogContent>
-            <DialogActions sx={{ p: '1.25rem' }}>
-                <Button onClick={onClose}>Cancel</Button>
-                <Button color="secondary" onClick={handleSubmit} variant="contained">
-                    Create New Customer
-                </Button>
-            </DialogActions>
-        </Dialog>
+      <Dialog open={open}>
+        <DialogTitle textAlign="center">Add New Booking</DialogTitle>
+        <DialogContent>
+          <form onSubmit={(e) => e.preventDefault()}>
+            <Stack
+              sx={{
+                width: '100%',
+                minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                gap: '1.5rem',
+              }}
+            >
+              {includedColumns.map((column) => (
+                <TextField
+                  key={column.accessorKey}
+                  label={column.header}
+                  name={column.accessorKey}
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                  error={validationErrors[column.accessorKey] ? true : false}
+                  helperText={validationErrors[column.accessorKey]}
+                />
+              ))}
+            </Stack>
+          </form>
+        </DialogContent>
+        <DialogActions sx={{ p: '1.25rem' }}>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button color="secondary" onClick={handleSubmit} variant="contained">
+            Create New Booking
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
-};
-
+  };
+  
+  
 const validateRequired = (value) => !!value.length;
 
 export default TestBookings;
