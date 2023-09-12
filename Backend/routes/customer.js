@@ -1,17 +1,18 @@
 import express from "express"; //
 
 import { createCustomer, updateCustomer, deleteCustomer, getCustomers, getCustomer } from "../controllers/customer.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 // create user
-router.post("/", createCustomer);
+router.post("/", verifyAdmin, createCustomer);
 
 // Update user Details
-router.put("/:id",updateCustomer);
+router.put("/:id", verifyAdmin, updateCustomer);
 
 // Delete customer
-router.delete("/:id", deleteCustomer);
+router.delete("/:id", verifyAdmin, deleteCustomer);
 
 //Get all customers
 router.get("/", getCustomers);

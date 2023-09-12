@@ -9,6 +9,9 @@ import { Link, useNavigate } from "react-router-dom";
 const Sidebar = () => {
 
     const navigate = useNavigate();
+    const handleClick_customer = () => {
+        navigate('/customer');
+    }
     const handleClick_food = () => {
         navigate('/food');
     }
@@ -35,7 +38,7 @@ const Sidebar = () => {
                 <ul>
                     <li>
                         <PersonIcon className="icon" />
-                        <span > Users </span>
+                        <span onClick={handleClick_customer}> Customers </span>
                     </li>
                     <li>
                         <BookmarkAddedIcon className="icon"/>
