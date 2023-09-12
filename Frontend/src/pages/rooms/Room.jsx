@@ -217,7 +217,7 @@ const Rooms = () => {
 
   return ( //Full Table is handle by here
     <div className="home">
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="homeContainer">
         <div style={{ maxWidth: '100%' }}>
         <>
