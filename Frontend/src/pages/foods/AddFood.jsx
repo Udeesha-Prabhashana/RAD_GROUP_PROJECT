@@ -1,66 +1,23 @@
-import react, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "./addfood.scss";
 
-const AddFoods = () => {
+const AddFood = async (newRow) => {
+    try {
+        const response = await axios.post (
+            'http://localhost:8880/api/food',
+          newRow, {
+              withCredentials: true
+            }
+           
+          );
+      console.log('Food added:', response.data)
+      return response.data
 
-    const [userData, setUserData] = useState({
-        Name: '',
-        desc: '',
-        price: '',
-    });
-    
-    let navigate = useNavigate();
-
-    const handleChange = (e) => {
-        setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value }));   //example, if the id of the username input is "username", the code will update credentials.username with the new value entered by the user.
-    };
-
-    const handleClick = async () => {
-        try {
-            const response = await axios.post('http://localhost:8880/api/food', userData, {
-                withCredentials: true   //when pass to the only withCredentils true
-            });
-            console.log('User added:', response.data);
-            // Optionally, you can navigate to a different page after successful addition
-            navigate('/food'); // Replace '/users' with the appropriate route
-        } catch (error) {
-            console.error('Error adding user:', error);
-        }
+    } catch (error) {
+      console.error('Error adding Food:', error);
     }
+    
+  };
 
-    return (
-        <div className="add_food">
-            <div className="lContainer">
-                <h3 className='header'> ADD NEW FOOD</h3>
-                <span> Food Name</span>
-                <input
-                    type="text"
-                    id= "Name"
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span> Description </span>
-                <input
-                    type="text"
-                    id= "desc"
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <span> Price </span>
-                <input
-                    type="text"
-                    id= "price"
-                    onChange={handleChange}
-                    className="lInput"
-                />
-                <button  onClick={handleClick} className="lButton">
-                    ADD FOOD
-                </button>
-            </div>
-        </div>
-    );
-}
-
-export default AddFoods;
+  
+export default AddFood;
+  
