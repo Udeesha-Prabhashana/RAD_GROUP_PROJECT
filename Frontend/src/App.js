@@ -7,7 +7,6 @@ import BookingMain from "./pages/bookings/BookingMain";
 import FoodMain from "./pages/foods/FoodMain";
 import CustomerMain from "./pages/customers/CustomerMain";
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -23,7 +22,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
-
 
 export default App;
