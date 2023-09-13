@@ -6,6 +6,9 @@ import AddIcon from '@mui/icons-material/Add';
 import AddBooking from './AddBooking' //////////////////Update Here
 import UpdateBooking from './UpdateBooking'; /////////////////Update Here
 import DeleteBooking from './DeleteBooking'; /////////////////Update Here
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import { Link } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -193,6 +196,17 @@ const TestBookings = () => {
   return ( //Full Table is handle by here
     <div className="home">
       <div className="homeContainer">
+          <AppBar position="static" color="default">
+              <Toolbar>
+                  <Typography variant="h4" align="center" style={{ marginTop: '10px', marginBottom: '10px', fontWeight: 'bold', color: 'black', fontSize: '40px', fontFamily: 'Helvetica Neue, sans-serif' }}>
+                      Bookings
+                  </Typography>
+                  <div style={{ marginLeft: 'auto' }}>
+                      <Button color="primary" component={Link} to={`/home`} >Home</Button>
+                      <Button color="primary" component={Link} to={`/`}>Logout</Button>
+                  </div>
+              </Toolbar>
+          </AppBar>
         <div style={{ maxWidth: '100%' }}>
         <>
           <MaterialReactTable
