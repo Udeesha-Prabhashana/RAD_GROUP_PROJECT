@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import "./login.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
 
 
 const Login = () => {
@@ -13,7 +14,10 @@ const Login = () => {
         password: undefined,
     });
 
-    const [error, setError] = useState("");
+    const { user, loading ,error ,dispatch } = useContext(AuthContext)
+    // const [error, setError] = useState("");
+
+    // console.log(user)
 
     const handleChange = (e) => {
         setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));   //example, if the id of the username input is "username", the code will update credentials.username with the new value entered by the user.
@@ -21,14 +25,15 @@ const Login = () => {
     
     const handleClick = async (e) => {
         e.preventDefault(); 
+        dispatch({ type: "LOGIN_START" });
         try {
             const res = await axios.post(`http://localhost:8880/api/auth/login`, credentials, {withCredentials: true}); // {withCredentials: true} use to validate  other pages
             if (res.data.isAdmin) {
+                dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
                 navigate("/home")                  //useNavigate hook (provided by React Router) to redirect the user to the home page ("/")
             }      //sends a POST request to the /auth/login endpoint with the credentials object as the payload. The credentials object contains the username and password entered by the user      
         } catch (err) {
-            console.error("Login failed:", err.response.data);
-            setError(err.response.data.message);
+            dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
         }
     }
 
@@ -52,10 +57,10 @@ const Login = () => {
                     onChange={handleChange}
                     className="lInput"
                 />
-                <button  onClick={handleClick} className="lButton">
+                <button disabled={loading} onClick={handleClick} className="lButton">
                     Login
                 </button>
-                {error && <span className="errorMessage">{error}</span>}
+                {error && <span>{error.message}</span>}
             </div>
         </div>
     );
