@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const PaymentSchema = new mongoose.Schema(
   {
+    customerId: {
+      type: String,
+      require: true,
+    },
     NIC: {
       type: String,
       require: true,
@@ -14,7 +18,8 @@ const PaymentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-  },{ timestamps: true }
+  },
+  { timestamps: true }
 );
 
 export default mongoose.model("Payment", PaymentSchema);

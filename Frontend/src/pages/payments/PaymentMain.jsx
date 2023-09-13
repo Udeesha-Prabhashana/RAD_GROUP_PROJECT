@@ -122,6 +122,12 @@ const TestBookings = () => {
                 hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
             },
             {
+                accessorKey: 'customerId', 
+                header: 'Customer ID',
+                size: 50,
+                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+            },
+            {
                 accessorKey: 'NIC', 
                 header: 'NIC',
                 size: 50,
@@ -353,7 +359,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <DialogActions sx={{ p: '1.25rem' }}>
           <Button onClick={onClose}>Cancel</Button>
           <Button color="secondary" onClick={handleSubmit} variant="contained">
-            Create New Booking
+            Create New Payment
           </Button>
         </DialogActions>
       </Dialog>
