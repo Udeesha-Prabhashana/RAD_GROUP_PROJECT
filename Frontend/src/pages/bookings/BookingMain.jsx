@@ -298,9 +298,6 @@ const TestBookings = () => {
 };
 
 
-
-
-
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   
   const [values, setValues] = useState(() =>
