@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const FoodSchema = new mongoose.Schema(
   {
+    FoodId: {
+      type: String,
+      require: true,
+    },
     Name: {
       type: String,
       require: true,
@@ -14,7 +18,7 @@ const FoodSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-  },
+  },{ timestamps: true }
 );
 
 export default mongoose.model("Food", FoodSchema);

@@ -1,7 +1,16 @@
 import Customer from "../models/Customer.js";
 
 export const createCustomer = async (req, res, next) => {
-    const newCustomer = new Customer(req.body);
+    const newCustomer = new Customer({
+        CustomerId: req.body.CustomerId,
+        FName: req.body.FName,
+        LName: req.body.LName,
+        Gender: req.body.Gender,
+        Email: req.body.Email,
+        MobileNo: req.body.MobileNo,
+        NIC: req.body.NIC,
+        Address: req.body.Address,
+    });
 
     try {
         const savedCustomer = await newCustomer.save();

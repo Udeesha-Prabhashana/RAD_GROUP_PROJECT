@@ -46,7 +46,9 @@ const RoomSchema = new mongoose.Schema(
       type:String,
       require: true,
     },
+
   },
+  { timestamps: true }
 );
 
 export default mongoose.model("Room", RoomSchema);
