@@ -362,7 +362,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
+  
   const includedColumns1 = columns.filter((column) => {
     return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv'  && column.accessorKey !== 'bathroom' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
   });

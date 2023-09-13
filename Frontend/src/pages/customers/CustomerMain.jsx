@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo,useEffect,useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -9,6 +9,7 @@ import DeleteCustomers from './DeleteCustomers';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link } from "react-router-dom";
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import {
     Box,
     Typography,
@@ -26,25 +27,25 @@ import { Delete, Edit } from '@mui/icons-material';
 
 const Customer = () => {
     const { data, loading, error, setData } = useFetch(
-            `http://localhost:8880/api/customer`
-        );
-  
+        `http://localhost:8880/api/customer`
+    );
+
     const [tableData, setTableData] = useState([]); //Current showing table data
     const [validationErrors, setValidationErrors] = useState({});
     const [createModalOpen, setCreateModalOpen] = useState(false);
-  
+
     useEffect(() => {
-            setTableData(data);  //Set table data: data is the returning mongodb values after fetching database
-        }, [data]
+        setTableData(data);  //Set table data: data is the returning mongodb values after fetching database
+    }, [data]
     );
 
     const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
             const responseData = await AddCustomers(values);
-        
+
             // Update the tableData state with the new data
             setTableData((prevData) => [...prevData, values]);
-        
+
             // Close the create modal or perform other necessary actions
             setCreateModalOpen(false);
         } catch (error) {
@@ -52,7 +53,7 @@ const Customer = () => {
             // Handle the error appropriately, e.g., show an error message to the user
         }
     };
-      
+
     const handleSaveRowEdits = async ({ exitEditingMode, row, values }) => {//This function updates row and sync with mongodb
         if (!Object.keys(validationErrors).length) {
             const updatedTableData = [...tableData]; // Create a copy of the original data
@@ -62,7 +63,7 @@ const Customer = () => {
             exitEditingMode();
         }
     };
-    
+
     const handleCancelRowEdits = () => {
         setValidationErrors({});
     };
@@ -113,30 +114,30 @@ const Customer = () => {
     );
 
     const columns = useMemo(
-        () => [ 
+        () => [
             {
-                accessorKey: '_id', 
+                accessorKey: '_id',
                 header: 'Record ID',
                 size: 50,
                 hidden: true,
             },
             {
-                accessorKey: 'CustomerId', 
+                accessorKey: 'CustomerId',
                 header: 'Customer Id',
                 size: 100,
             },
             {
-                accessorKey: 'NIC', 
+                accessorKey: 'NIC',
                 header: 'NIC No',
                 size: 100,
             },
             {
-                accessorKey: 'FName', 
+                accessorKey: 'FName',
                 header: 'First Name',
                 size: 24,
             },
             {
-                accessorKey: 'LName', 
+                accessorKey: 'LName',
                 header: 'Last Name',
                 size: 24,
             },
@@ -211,176 +212,198 @@ const Customer = () => {
                     </Toolbar>
                 </AppBar>
                 <div style={{ maxWidth: '100%' }}>
-                <>
-                    <MaterialReactTable
-                        displayColumnDefOptions={{
-                            'mrt-row-actions': {
-                                muiTableHeadCellProps: {
-                                    align: 'center',
+                    <>
+                        <MaterialReactTable
+                            displayColumnDefOptions={{
+                                'mrt-row-actions': {
+                                    muiTableHeadCellProps: {
+                                        align: 'center',
+                                    },
+                                    size: 120,
                                 },
-                                size: 120,
-                            },
-                        }}
-                        columns={columns}
-                        data={tableData}
-                        initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
-                        editingMode="modal" 
-                        enableColumnOrdering
-                        enableEditing
-                        disableRowSelection
-                        enableStickyHeader
-                        positionToolbarAlertBanner="bottom"
-                        onEditingRowSave={handleSaveRowEdits}
-                        onEditingRowCancel={handleCancelRowEdits}
-                        renderDetailPanel={({ row }) => (
-                            <Box
-                                sx={{
-                                    display: 'grid',
-                                    margin: 'auto',
-                                    gridTemplateColumns: '1fr 1fr',
-                                    width: '100%',
-                                }}
-                            >
-                            
-                            <Typography>Record ID: {row.original._id}</Typography>
-                            {/* <Typography>Total Price: {row.original.totalPrice}</Typography> */}
-                            <Typography>Updated At: {row.original.updatedAt}</Typography>
+                            }}
+                            columns={columns}
+                            data={tableData}
+                            initialState={{ columnVisibility: { _id: false, updatedAt: false, totalPrice: false } }}
+                            editingMode="modal"
+                            enableColumnOrdering
+                            enableEditing
+                            disableRowSelection
+                            enableStickyHeader
+                            positionToolbarAlertBanner="bottom"
+                            onEditingRowSave={handleSaveRowEdits}
+                            onEditingRowCancel={handleCancelRowEdits}
+                            renderDetailPanel={({ row }) => (
+                                <Box
+                                    sx={{
+                                        display: 'grid',
+                                        margin: 'auto',
+                                        gridTemplateColumns: '1fr 1fr',
+                                        width: '100%',
+                                    }}
+                                >
 
-                            </Box>
-                        )}
-                        renderRowActions={({ row, table }) => (
-                            <Box sx={{ display: 'flex', gap: '1rem' }}>
-                                <Tooltip arrow placement="left" title="Edit">
-                                    <IconButton onClick={() => table.setEditingRow(row)}>
-                                        <Edit />
-                                    </IconButton>
-                                </Tooltip>
-                                <Tooltip arrow placement="right" title="Delete">
-                                    <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                                        <Delete />
-                                    </IconButton>
-                                </Tooltip>
-                            </Box>
-                        )}
-                        renderTopToolbarCustomActions={({ table }) => (
-                            <Box
-                                sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
-                            >
-                            <Button
-                                color="secondary"
-                                onClick={() => setCreateModalOpen(true)}
-                                startIcon={<AddIcon />}
-                                variant="contained"
-                            >
-                                Add Customer
-                            </Button>
-                            <Button
-                                color="primary"
-                                onClick={exportToCsv}
-                                startIcon={<FileDownloadIcon />}
-                                variant="contained"
-                            >
-                                Export All Data
-                            </Button>
-                            {/* Other buttons for exporting */}
-                            </Box>
-                        )}
-                    />
-                    <CreateNewAccountModal
-                        columns={columns}
-                        open={createModalOpen}
-                        onClose={() => setCreateModalOpen(false)}
-                        onSubmit={handleCreateNewRow}
-                    />
-                </>
+                                    <Typography>Record ID: {row.original._id}</Typography>
+                                    {/* <Typography>Total Price: {row.original.totalPrice}</Typography> */}
+                                    <Typography>Updated At: {row.original.updatedAt}</Typography>
+
+                                </Box>
+                            )}
+                            renderRowActions={({ row, table }) => (
+                                <Box sx={{ display: 'flex', gap: '1rem' }}>
+                                    <Tooltip arrow placement="left" title="Edit">
+                                        <IconButton onClick={() => table.setEditingRow(row)}>
+                                            <Edit />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Tooltip arrow placement="right" title="Delete">
+                                        <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                                            <Delete />
+                                        </IconButton>
+                                    </Tooltip>
+                                </Box>
+                            )}
+                            renderTopToolbarCustomActions={({ table }) => (
+                                <Box
+                                    sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
+                                >
+                                    <Button
+                                        color="secondary"
+                                        onClick={() => setCreateModalOpen(true)}
+                                        startIcon={<AddIcon />}
+                                        variant="contained"
+                                    >
+                                        Add Customer
+                                    </Button>
+                                    <Button
+                                        color="primary"
+                                        onClick={exportToCsv}
+                                        startIcon={<FileDownloadIcon />}
+                                        variant="contained"
+                                    >
+                                        Export All Data
+                                    </Button>
+                                    {/* Other buttons for exporting */}
+                                </Box>
+                            )}
+                        />
+                        <CreateNewAccountModal
+                            columns={columns}
+                            open={createModalOpen}
+                            onClose={() => setCreateModalOpen(false)}
+                            onSubmit={handleCreateNewRow}
+                        />
+                    </>
                 </div>
             </div>
         </div>
     );
 };
 
-
-
 export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
-  
+
     const [values, setValues] = useState(() =>
-      columns.reduce((acc, column) => {
-        acc[column.accessorKey ?? ''] = '';
-        return acc;
-      }, {}),
+        columns.reduce((acc, column) => {
+            acc[column.accessorKey ?? ''] = '';
+            return acc;
+        }, {}),
     );
     const handleSubmit = () => {
-      const isValid = validateForm();
-      if (isValid) {
-        onSubmit(values);
-        onClose();
-      }
-      
-    };
-  
-    const [validationErrors, setValidationErrors] = useState({});
-    const validateForm = () => {
-      const errors = {};
-    
-      includedColumns.forEach((column) => {
-        if (!values[column.accessorKey]) {
-          errors[column.accessorKey] = `${column.header} is required`;
+        const isValid = validateForm();
+        if (isValid) {
+            onSubmit(values);
+            onClose();
         }
-      });
-    
-      includedColumns.forEach((column) => {
-        if (!values[column.accessorKey]) {
-          errors[column.accessorKey] = `${column.header} is required`;
-        }
-      });
-    
-      setValidationErrors(errors);
-      return Object.keys(errors).length === 0;
+
     };
 
-    const includedColumns = columns.filter((column) => {
-      return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
-     });
-  
-  
+    const [validationErrors, setValidationErrors] = useState({});
+    const validateForm = () => {
+        const errors = {};
+
+        includedColumns1.forEach((column) => {
+            if (!values[column.accessorKey]) {
+                errors[column.accessorKey] = `${column.header} is required`;
+            }
+        });
+
+        includedColumns2.forEach((column) => {
+            if (!values[column.accessorKey]) {
+                errors[column.accessorKey] = `${column.header} is required`;
+            }
+        });
+
+        setValidationErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    // const includedColumns = columns.filter((column) => {
+    //     return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt';
+    // });
+
+    const includedColumns1 = columns.filter((column) => {
+        return column.accessorKey !== '_id' && column.accessorKey !== 'Gender'  && column.accessorKey !== 'updatedAt';
+    });
+    const includedColumns2 = columns.filter((column) => {
+        return column.accessorKey !== '_id' && column.accessorKey !== 'CustomerId' && column.accessorKey !== 'NIC' && column.accessorKey !== 'FName' && column.accessorKey !== 'LName' && column.accessorKey !== 'Email' && column.accessorKey !== 'MobileNo' && column.accessorKey !== 'Address' && column.accessorKey !== 'updatedAt';
+    });
+
     return (
-      <Dialog open={open}>
-        <DialogTitle textAlign="center">Add New Customer</DialogTitle>
-        <DialogContent>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Stack
-              sx={{
-                width: '100%',
-                minWidth: { xs: '300px', sm: '360px', md: '400px' },
-                gap: '1.5rem',
-              }}
-            >
-              {includedColumns.map((column) => (
-                <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={validationErrors[column.accessorKey] ? true : false}
-                  helperText={validationErrors[column.accessorKey]}
-                />
-              ))}
-            </Stack>
-          </form>
-        </DialogContent>
-        <DialogActions sx={{ p: '1.25rem' }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button color="secondary" onClick={handleSubmit} variant="contained">
-            Create New Customer
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Dialog open={open}>
+            <DialogTitle textAlign="center">Add New Customer</DialogTitle>
+            <DialogContent>
+                <form onSubmit={(e) => e.preventDefault()}>
+                    <Stack
+                        sx={{
+                            width: '100%',
+                            minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                            gap: '1.5rem',
+                        }}
+                    >
+                        {includedColumns1.map((column) => (
+                            <TextField
+                                key={column.accessorKey}
+                                label={column.header}
+                                name={column.accessorKey}
+                                onChange={(e) =>
+                                    setValues({ ...values, [e.target.name]: e.target.value })
+                                }
+                                error={validationErrors[column.accessorKey] ? true : false}
+                                helperText={validationErrors[column.accessorKey]}
+                            />
+                        ))}
+                        {includedColumns2.map((column) => (
+                            <FormControl key={column.accessorKey}>
+                                <InputLabel>{column.header}</InputLabel>
+                                <Select
+                                    label={column.header}
+                                    name={column.accessorKey}
+                                    value={values[column.accessorKey]}
+                                    onChange={(e) =>
+                                        setValues({ ...values, [e.target.name]: e.target.value })
+                                    }
+                                    error={validationErrors[column.accessorKey] ? true : false}
+                                    helperText={validationErrors[column.accessorKey]}
+                                >
+                                    <MenuItem value="M">Male</MenuItem>
+                                    <MenuItem value="F">Female</MenuItem>
+                                </Select>
+                            </FormControl>
+                        ))}
+                    </Stack>
+                </form>
+            </DialogContent>
+            <DialogActions sx={{ p: '1.25rem' }}>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button color="secondary" onClick={handleSubmit} variant="contained">
+                    Create New Customer
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
-  };
-  
-  
+};
+
+
 const validateRequired = (value) => !!value.length;
 
 export default Customer;
