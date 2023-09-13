@@ -14,7 +14,7 @@ const PaymentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-  },
+  },{ timestamps: true }
 );
 
 export default mongoose.model("Payment", PaymentSchema);
