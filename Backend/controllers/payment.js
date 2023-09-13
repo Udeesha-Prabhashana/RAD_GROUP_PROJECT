@@ -1,7 +1,11 @@
 import Payment from "../models/Payment.js";
 
 export const createPayment = async (req, res, next) => {
-    const newPayment = new Payment(req.body);
+    const newPayment = new Payment({
+      NIC: req.body.NIC,
+      payment: req.body.payment,
+      date: req.body.date
+    });
   
     try {
       const savedPayment = await newPayment.save();

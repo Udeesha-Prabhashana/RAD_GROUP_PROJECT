@@ -3,11 +3,9 @@ import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddRoom from './AddRoom' //////////////////Update Here
-import UpdateRoom from './UpdateRoom'; /////////////////Update Here
-import DeleteRoom from './DeleteRoom'; /////////////////Update Here
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
-
+import AddBooking from './AddBooking' //////////////////Update Here
+import UpdateBooking from './UpdateBooking'; /////////////////Update Here
+import DeleteBooking from './DeleteBooking'; /////////////////Update Here
 import {
   Box,
   Typography,
@@ -23,9 +21,11 @@ import {
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 
-const Rooms = () => {
+
+
+const TestBookings = () => {
     const { data, loading, error, setData } = useFetch(
-        `http://localhost:8880/api/room` //////////////////update this URL
+        `http://localhost:8880/api/booking` //////////////////update this URL
       );
   
       const [tableData, setTableData] =useState([]); //Current showing table data
@@ -41,7 +41,7 @@ const Rooms = () => {
       const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
 
-          const responseData = await AddRoom(values); //////////////////////Update: Replace AddBooking
+          const responseData = await AddBooking(values); //////////////////////Update: Replace AddBooking
       
           // Update the tableData state with the new data
           setTableData((prevData) => [...prevData, values]);
@@ -59,7 +59,7 @@ const Rooms = () => {
           const updatedTableData = [...tableData]; // Create a copy of the original data
           updatedTableData[row.index] = values; // Update the specific row
           setTableData(updatedTableData); // Update the state with the modified data
-          const responseData = UpdateRoom(values);////////////////////////////////// Update: Replace Update Booking
+          const responseData = UpdateBooking(values);////////////////////////////////// Update: Replace Update Booking
           exitEditingMode();
         }
       };
@@ -76,7 +76,7 @@ const Rooms = () => {
           }
           try {
             // Make the delete request here, and then update the tableData if successful
-            await DeleteRoom(row.getValue('_id'));//////////////////////Update: Replace the DeleteBooking
+            await DeleteBooking(row.getValue('_id'));//////////////////////Update: Replace the DeleteBooking
             const updatedTableData = [...tableData];
             updatedTableData.splice(row.index, 1); // Remove the deleted row
             setTableData(updatedTableData); // Update the state with the modified data
@@ -124,65 +124,41 @@ const Rooms = () => {
         hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
       },
       {
-        accessorKey: 'room_No', 
-        header: 'Room Number',
+        accessorKey: 'bookingId', 
+        header: 'Booking ID',
         size: 100,
       },
       {
-        accessorKey: 'room_type', 
-        header: 'Room Type',
+        accessorKey: 'customerId', 
+        header: 'Customer ID',
         size: 50,
       },
       {
-        accessorKey: 'room_ac', 
-        header: 'AC',
+        accessorKey: 'roomId', 
+        header: 'Room ID',
         size: 100,
       },
       {
-        accessorKey: 'price',
-        header: 'Price Per Night',
+        accessorKey: 'checkInDate',
+        header: 'Check-In Date',
         size: 150,
       },
       {
-        accessorKey: 'availability',
-        header: 'Availability',
+        accessorKey: 'checkOutDate',
+        header: 'Check-Out Date',
         size: 150,
       },
       {
-        accessorKey: 'no_of_beds',
-        header: 'Number of Beds',
+        accessorKey: 'totalPrice',
+        header: 'Total Price',
+        size: 150,
+      },
+      {
+        accessorKey: 'updatedAt',
+        header: 'Updated At',
         size: 150,
         hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
-      },
-      {
-        accessorKey: 'no_of_chairs',
-        header: 'Number of Chairs',
-        size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
-      },
-      {
-        accessorKey: 'tv',
-        header: 'Tv',
-        size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
-      },
-      {
-        accessorKey: 'bathroom',
-        header: 'Bathroom',
-        size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
-      },
-      {
-        accessorKey: 'balcony',
-        header: 'Balcony',
-        size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
-      },
-      {
-        accessorKey: 'wifi',
-        header: 'Wifi',
-        size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+        
       },
     ],
     [getCommonEditTextFieldProps],
@@ -210,7 +186,7 @@ const Rooms = () => {
     // Create a download link and trigger the download
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'Room_Report.csv'; //////////////////Update: You can give any name here for downloading document
+    link.download = 'Booking_Report.csv'; //////////////////Update: You can give any name here for downloading document
     link.click();
   };
 
@@ -230,7 +206,7 @@ const Rooms = () => {
             }}
             columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
             data={tableData} //tableData will show as the data in the table
-            initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, bathroom: false, balcony: false, wifi: false }}}
+            initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
             editingMode="modal" 
             enableColumnOrdering
             enableEditing
@@ -249,37 +225,11 @@ const Rooms = () => {
                 }}
               ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
               >
+                
                 <Typography>Record ID: {row.original._id}</Typography>
-                <Typography>Number of Beds: {row.original.no_of_beds}</Typography>
-                <Typography>Number of Chairs: {row.original.no_of_chairs}</Typography>
-                <Typography>Tv: {row.original.tv}</Typography>
-                <Typography>Bathroom: {row.original.bathroom}</Typography>
-                <Typography>Balcony: {row.original.balcony}</Typography>
-                <Typography>Wifi: {row.original.wifi}</Typography>
-              </Box>
-            )}
-            
-            renderTopToolbarCustomActions={({ table }) => (
-              <Box
-                sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
-              >
-                <Button
-                  color="secondary"
-                  onClick={() => setCreateModalOpen(true)}
-                  startIcon={<AddIcon />}
-                  variant="contained"
-                >
-                  Add Room
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={exportToCsv}
-                  startIcon={<FileDownloadIcon />}
-                  variant="contained"
-                >
-                  Export All Data
-                </Button>
-                {/* Other buttons for exporting */}
+                <Typography>Total Price: {row.original.totalPrice}</Typography>
+                <Typography>Updated At: {row.original.updatedAt}</Typography>
+
               </Box>
             )}
             renderRowActions={({ row, table }) => (
@@ -296,6 +246,29 @@ const Rooms = () => {
                 </Tooltip>
               </Box>
             )}
+            renderTopToolbarCustomActions={({ table }) => (
+              <Box
+                sx={{ display: 'flex', gap: '1rem', p: '0.5rem', flexWrap: 'wrap' }}
+              >
+                <Button
+                  color="secondary"
+                  onClick={() => setCreateModalOpen(true)}
+                  startIcon={<AddIcon />}
+                  variant="contained"
+                >
+                  Add Booking
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={exportToCsv}
+                  startIcon={<FileDownloadIcon />}
+                  variant="contained"
+                >
+                  Export All Data
+                </Button>
+                {/* Other buttons for exporting */}
+              </Box>
+            )}
 
           />
           <CreateNewAccountModal
@@ -310,6 +283,8 @@ const Rooms = () => {
     </div>
   );
 };
+
+
 
 
 
@@ -334,13 +309,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   const validateForm = () => {
     const errors = {};
   
-    includedColumns1.forEach((column) => {
+    includedColumns.forEach((column) => {
       if (!values[column.accessorKey]) {
         errors[column.accessorKey] = `${column.header} is required`;
       }
     });
   
-    includedColumns2.forEach((column) => {
+    includedColumns.forEach((column) => {
       if (!values[column.accessorKey]) {
         errors[column.accessorKey] = `${column.header} is required`;
       }
@@ -350,12 +325,10 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     return Object.keys(errors).length === 0;
   };
   ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
-  const includedColumns1 = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv'  && column.accessorKey !== 'bathroom' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
-  });
-  const includedColumns2 = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'room_type' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs';
-  });
+  const includedColumns = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
+   });
+
 
   return (
     <Dialog open={open}>
@@ -369,7 +342,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               gap: '1.5rem',
             }}
           >
-            {includedColumns1.map((column) => (
+            {includedColumns.map((column) => (
               <TextField
                 key={column.accessorKey}
                 label={column.header}
@@ -380,24 +353,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 error={validationErrors[column.accessorKey] ? true : false}
                 helperText={validationErrors[column.accessorKey]}
               />
-            ))}
-            {includedColumns2.map((column) => (
-              <FormControl key={column.accessorKey}>
-                <InputLabel>{column.header}</InputLabel>
-                <Select
-                  label={column.header}
-                  name={column.accessorKey}
-                  value={values[column.accessorKey]}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={validationErrors[column.accessorKey] ? true : false}
-                  helperText={validationErrors[column.accessorKey]}
-                >
-                  <MenuItem value="Yes">Yes</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
-                </Select>
-              </FormControl>
             ))}
           </Stack>
         </form>
@@ -415,4 +370,4 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
 
 const validateRequired = (value) => !!value.length;
 
-export default Rooms;
+export default TestBookings;
