@@ -1,12 +1,11 @@
 import React, {useCallback, useMemo,useEffect,useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
-// import Sidebar from "../../components/sidebar/Sidebar";
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddCustomers from './AddCustomers' //////////////////Update Here
-import UpdateCustomers from './UpdateCustomers'; /////////////////Update Here
-import DeleteCustomers from './DeleteCustomers'; /////////////////Update Here
+import AddCustomers from './AddCustomers';
+import UpdateCustomers from './UpdateCustomers';
+import DeleteCustomers from './DeleteCustomers';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link } from "react-router-dom";
@@ -25,7 +24,7 @@ import {
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 
-const TestBookings = () => {
+const Customer = () => {
     const { data, loading, error, setData } = useFetch(
             `http://localhost:8880/api/customer` //////////////////update this URL
         );
@@ -123,17 +122,22 @@ const TestBookings = () => {
                 hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
             },
             {
+                accessorKey: 'CustomerId', 
+                header: 'Customer Id',
+                size: 100,
+            },
+            {
                 accessorKey: 'NIC', 
                 header: 'NIC No',
                 size: 100,
             },
             {
-                accessorKey: 'Fname', 
+                accessorKey: 'FName', 
                 header: 'First Name',
                 size: 24,
             },
             {
-                accessorKey: 'Lname', 
+                accessorKey: 'LName', 
                 header: 'Last Name',
                 size: 24,
             },
@@ -189,7 +193,7 @@ const TestBookings = () => {
         // Create a download link and trigger the download
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'Booking_Report.csv'; //////////////////Update: You can give any name here for downloading document
+        link.download = 'Customer_Report.csv'; //////////////////Update: You can give any name here for downloading document
         link.click();
     };
 
@@ -343,7 +347,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   
     return (
       <Dialog open={open}>
-        <DialogTitle textAlign="center">Add New Booking</DialogTitle>
+        <DialogTitle textAlign="center">Add New Customer</DialogTitle>
         <DialogContent>
           <form onSubmit={(e) => e.preventDefault()}>
             <Stack
@@ -371,7 +375,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         <DialogActions sx={{ p: '1.25rem' }}>
           <Button onClick={onClose}>Cancel</Button>
           <Button color="secondary" onClick={handleSubmit} variant="contained">
-            Create New Booking
+            Create New Customer
           </Button>
         </DialogActions>
       </Dialog>
@@ -381,4 +385,4 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   
 const validateRequired = (value) => !!value.length;
 
-export default TestBookings;
+export default Customer;
