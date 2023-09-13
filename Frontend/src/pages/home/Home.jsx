@@ -34,23 +34,23 @@ const Home = () => {
                 </div>
                 <ul>
                     <li>
-                        <PersonIcon className="icon" />
+                        <PersonIcon className="icon" onClick={handleClick_customer}/>
                         <span onClick={handleClick_customer}> Customers </span>
                     </li>
                     <li>
-                        <BookmarkAddedIcon className="icon"/>
+                        <BookmarkAddedIcon className="icon" onClick={handleClick_bookings}/>
                         <span onClick={handleClick_bookings}> Booking </span>
                     </li>
                     <li>
-                        <PaidOutlinedIcon className="icon"/>
+                        <PaidOutlinedIcon className="icon" onClick={handleClick_payment}/>
                         <span onClick={handleClick_payment}> Payment </span>
                     </li>
                     <li>
-                        <LocalDiningOutlinedIcon className="icon"/>
+                        <LocalDiningOutlinedIcon className="icon" onClick={handleClick_food}/>
                         <span onClick={handleClick_food}> Foods </span>
                     </li>
                     <li>
-                        <BedroomChildOutlinedIcon className="icon"/>
+                        <BedroomChildOutlinedIcon className="icon" onClick={handleClick_room}/>
                         <span onClick={handleClick_room}> Rooms </span>
                     </li>
                 </ul>
