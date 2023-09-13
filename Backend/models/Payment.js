@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const PaymentSchema = new mongoose.Schema(
   {
-    guestID: {
+    NIC: {
       type: String,
       require: true,
     },

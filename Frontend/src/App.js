@@ -1,9 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
-import Payment from "./pages/payments/Payment";
-import CreatePayment from "./pages/payments/CreatePayment";
-import UpdatePayment from "./pages/payments/UpdatePayment";
+import PaymentMain from "./pages/payments/PaymentMain";
 import Room from "./pages/rooms/Room";
 import BookingMain from "./pages/bookings/BookingMain";
 import FoodMain from "./pages/foods/FoodMain";
@@ -16,9 +14,7 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Login />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/createpayment" element={<CreatePayment />} />
-        <Route path="/updatepayment/:id" element={<UpdatePayment />} />
+        <Route path="/payment" element={<PaymentMain />} />
         <Route path="/room" element={<Room />} />
         <Route path="/bookings" element={<BookingMain />} />
         <Route path="/food" element={<FoodMain />} />
@@ -31,4 +27,3 @@ function App() {
 
 
 export default App;
-
