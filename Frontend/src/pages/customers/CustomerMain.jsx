@@ -26,7 +26,7 @@ import { Delete, Edit } from '@mui/icons-material';
 
 const Customer = () => {
     const { data, loading, error, setData } = useFetch(
-            `http://localhost:8880/api/customer` //////////////////update this URL
+            `http://localhost:8880/api/customer`
         );
   
     const [tableData, setTableData] = useState([]); //Current showing table data
@@ -40,7 +40,7 @@ const Customer = () => {
 
     const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
-            const responseData = await AddCustomers(values); //////////////////////Update: Replace AddCustomers
+            const responseData = await AddCustomers(values);
         
             // Update the tableData state with the new data
             setTableData((prevData) => [...prevData, values]);
@@ -58,7 +58,7 @@ const Customer = () => {
             const updatedTableData = [...tableData]; // Create a copy of the original data
             updatedTableData[row.index] = values; // Update the specific row
             setTableData(updatedTableData); // Update the state with the modified data
-            const responseData = UpdateCustomers(values);////////////////////////////////// Update: Replace UpdateCustomers
+            const responseData = UpdateCustomers(values);
             exitEditingMode();
         }
     };
@@ -69,12 +69,11 @@ const Customer = () => {
 
     const handleDeleteRow = useCallback( //This function is used to delete a row
         async (row) => {
-            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
+            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) {
                 return;
             }
             try {
-                // Make the delete request here, and then update the tableData if successful
-                await DeleteCustomers(row.getValue('_id'));//////////////////////Update: Replace the DeleteCustomers
+                await DeleteCustomers(row.getValue('_id'));
                 const updatedTableData = [...tableData];
                 updatedTableData.splice(row.index, 1); // Remove the deleted row
                 setTableData(updatedTableData); // Update the state with the modified data
@@ -113,13 +112,13 @@ const Customer = () => {
         [validationErrors],
     );
 
-    const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+    const columns = useMemo(
         () => [ 
             {
                 accessorKey: '_id', 
                 header: 'Record ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'CustomerId', 
@@ -165,7 +164,7 @@ const Customer = () => {
                 accessorKey: 'updatedAt',
                 header: 'Updated At',
                 size: 150,
-                hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
         ],
         [getCommonEditTextFieldProps],
@@ -193,7 +192,7 @@ const Customer = () => {
         // Create a download link and trigger the download
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'Customer_Report.csv'; //////////////////Update: You can give any name here for downloading document
+        link.download = 'Customer_Report.csv';
         link.click();
     };
 
@@ -222,8 +221,8 @@ const Customer = () => {
                                 size: 120,
                             },
                         }}
-                        columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
-                        data={tableData} //tableData will show as the data in the table
+                        columns={columns}
+                        data={tableData}
                         initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
                         editingMode="modal" 
                         enableColumnOrdering
@@ -241,7 +240,6 @@ const Customer = () => {
                                     gridTemplateColumns: '1fr 1fr',
                                     width: '100%',
                                 }}
-                                ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
                             >
                             
                             <Typography>Record ID: {row.original._id}</Typography>
@@ -339,7 +337,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       setValidationErrors(errors);
       return Object.keys(errors).length === 0;
     };
-    ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
+
     const includedColumns = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
      });

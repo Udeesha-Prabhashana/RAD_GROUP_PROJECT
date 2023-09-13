@@ -1,7 +1,12 @@
 import Food from "../models/Food.js";
 
 export const createFood = async (req, res, next) => {
-  const newFood = new Food(req.body);
+  const newFood = new Food({
+    FoodId: req.body.FoodId,
+    Name: req.body.Name,
+    price: req.body.price,
+    desc: req.body.desc
+});
 
   try {
     const savedFood = await newFood.save();
