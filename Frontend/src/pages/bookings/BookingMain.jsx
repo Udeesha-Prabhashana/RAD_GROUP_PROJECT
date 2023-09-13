@@ -3,9 +3,9 @@ import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddBooking from './AddBooking' //////////////////Update Here
-import UpdateBooking from './UpdateBooking'; /////////////////Update Here
-import DeleteBooking from './DeleteBooking'; /////////////////Update Here
+import AddBooking from './AddBooking';
+import UpdateBooking from './UpdateBooking';
+import DeleteBooking from './DeleteBooking';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link } from "react-router-dom";
@@ -28,10 +28,10 @@ import { Delete, Edit } from '@mui/icons-material';
 
 const TestBookings = () => {
     const { data, loading, error, setData } = useFetch(
-        `http://localhost:8880/api/booking` //////////////////update this URL
+        `http://localhost:8880/api/booking`
       );
   
-      const [tableData, setTableData] =useState([]); //Current showing table data
+      const [tableData, setTableData] =useState([]);
       const [validationErrors, setValidationErrors] = useState({});
       const [createModalOpen, setCreateModalOpen] = useState(false);
   
@@ -44,7 +44,7 @@ const TestBookings = () => {
       const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
 
-          const responseData = await AddBooking(values); //////////////////////Update: Replace AddBooking
+          const responseData = await AddBooking(values);
       
           // Update the tableData state with the new data
           setTableData((prevData) => [...prevData, values]);
@@ -62,7 +62,7 @@ const TestBookings = () => {
           const updatedTableData = [...tableData]; // Create a copy of the original data
           updatedTableData[row.index] = values; // Update the specific row
           setTableData(updatedTableData); // Update the state with the modified data
-          const responseData = UpdateBooking(values);////////////////////////////////// Update: Replace Update Booking
+          const responseData = UpdateBooking(values);
           exitEditingMode();
         }
       };
@@ -74,12 +74,12 @@ const TestBookings = () => {
 
       const handleDeleteRow = useCallback( //This function is used to delete a row
         async (row) => {
-          if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
+          if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) {
             return;
           }
           try {
             // Make the delete request here, and then update the tableData if successful
-            await DeleteBooking(row.getValue('_id'));//////////////////////Update: Replace the DeleteBooking
+            await DeleteBooking(row.getValue('_id'));
             const updatedTableData = [...tableData];
             updatedTableData.splice(row.index, 1); // Remove the deleted row
             setTableData(updatedTableData); // Update the state with the modified data
@@ -118,13 +118,13 @@ const TestBookings = () => {
         [validationErrors],
       );
 
-  const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+  const columns = useMemo(
     () => [ 
       {
         accessorKey: '_id', 
         header: 'Record ID',
         size: 50,
-        hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+        hidden: true,
       },
       {
         accessorKey: 'bookingId', 
@@ -160,7 +160,7 @@ const TestBookings = () => {
         accessorKey: 'updatedAt',
         header: 'Updated At',
         size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+        hidden: true,
         
       },
     ],
@@ -189,7 +189,7 @@ const TestBookings = () => {
     // Create a download link and trigger the download
     const link = document.createElement('a');
     link.href = window.URL.createObjectURL(blob);
-    link.download = 'Booking_Report.csv'; //////////////////Update: You can give any name here for downloading document
+    link.download = 'Booking_Report.csv';
     link.click();
   };
 
@@ -218,8 +218,8 @@ const TestBookings = () => {
                 size: 120,
               },
             }}
-            columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
-            data={tableData} //tableData will show as the data in the table
+            columns={columns}
+            data={tableData}
             initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
             editingMode="modal" 
             enableColumnOrdering
@@ -237,7 +237,6 @@ const TestBookings = () => {
                   gridTemplateColumns: '1fr 1fr',
                   width: '100%',
                 }}
-              ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
               >
                 
                 <Typography>Record ID: {row.original._id}</Typography>
@@ -338,7 +337,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
-  ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
+
   const includedColumns = columns.filter((column) => {
     return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
    });
@@ -380,7 +379,6 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     </Dialog>
   );
 };
-
 
 const validateRequired = (value) => !!value.length;
 
