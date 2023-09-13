@@ -17,7 +17,8 @@ router.delete("/:id",verifyAdmin, deletePayment);
 
 //GET ALL
 router.get("/", getPayments);
-//get food
+
+//gGET A PAYMENT
 router.get("/find/:id", getPayment);
 
 export default router
