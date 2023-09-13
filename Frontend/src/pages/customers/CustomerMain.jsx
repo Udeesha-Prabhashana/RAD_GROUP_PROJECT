@@ -1,5 +1,6 @@
 import React, {useCallback, useMemo,useEffect,useState } from 'react';
 import { MaterialReactTable } from 'material-react-table';
+import Sidebar from "../../components/sidebar/Sidebar";
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
@@ -191,6 +192,7 @@ const TestBookings = () => {
 
     return ( //Full Table is handle by here
         <div className="home">
+            {/* <Sidebar /> */}
             <div className="homeContainer">
                 <div style={{ maxWidth: '100%' }}>
                 <>
