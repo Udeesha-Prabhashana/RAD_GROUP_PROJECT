@@ -1,7 +1,7 @@
 import express from "express";
 import Room from "../models/Room.js";
 
-import { createRoom, updateRoom, deleteRoom, getRooms, getRoom } from "../controllers/room.js";
+import { createRoom, updateRoom, deleteRoom, getRooms, getRoom, getRoomNos } from "../controllers/room.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
@@ -14,6 +14,9 @@ router.put("/:id", /*verifyAdmin,*/ updateRoom);
 
 //DELETE
 router.delete("/:id",/*verifyAdmin,*/ deleteRoom);
+
+
+router.get("/getRoomNos", getRoomNos);
 
 //GET ALL
 router.get("/", getRooms);
