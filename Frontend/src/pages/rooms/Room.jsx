@@ -376,7 +376,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   };
   
   const includedColumns1 = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
+    return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi' && column.accessorKey !== 'updatedAt';
   });
   const includedColumns2 = columns.filter((column) => {
     return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'room_type' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs' && column.accessorKey !== 'updatedAt';
