@@ -8,10 +8,10 @@ const UpdateCustomer = async (updatedRow) => {
                 withCredentials: true
             }
         );
-        console.log('Booking updated:', response.data);
+        console.log('Customer updated:', response.data);
         return response;
     } catch (error) {
-        console.error('Error updating booking:', error);
+        console.error('Error updating customer:', error);
         throw error; 
     }
 };

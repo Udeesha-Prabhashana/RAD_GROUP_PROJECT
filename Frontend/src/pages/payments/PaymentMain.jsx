@@ -3,17 +3,22 @@ import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddPayment from './AddPayment' //////////////////Update Here
-import UpdatePayment from './UpdatePayment'; /////////////////Update Here
-import DeletePayment from './DeletePayment'; /////////////////Update Here
+import AddPayment from './AddPayment' 
+import UpdatePayment from './UpdatePayment'; 
+import DeletePayment from './DeletePayment'; 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link , useNavigate} from "react-router-dom";
+import FetchCustomerIds from '../payments/fetchCustomerId';
+import FetchNICByCustomerId from './FetchNICByCustomerId';
+import { FormControl, InputLabel} from '@mui/material';
 import {
     Box,
     Typography,
     Button,
     Dialog,
+    Select, 
+    MenuItem,
     DialogActions,
     DialogContent,
     DialogTitle,
@@ -25,7 +30,7 @@ import {
 import { Delete, Edit } from '@mui/icons-material';
 import { AuthContext } from '../../context/AuthContext';
 
-const TestBookings = () => {
+const Payments = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -36,7 +41,7 @@ const TestBookings = () => {
   const { dispatch } = useContext(AuthContext)
 
     const { data, loading, error, setData } = useFetch(
-            `http://localhost:8880/api/payment` //////////////////update this URL
+            `http://localhost:8880/api/payment`
         );
   
     const [tableData, setTableData] = useState([]); //Current showing table data
@@ -50,7 +55,7 @@ const TestBookings = () => {
 
     const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
-            const responseData = await AddPayment(values); //////////////////////Update: Replace AddCustomers
+            const responseData = await AddPayment(values); 
         
             // Update the tableData state with the new data
             setTableData((prevData) => [...prevData, values]);
@@ -68,7 +73,7 @@ const TestBookings = () => {
             const updatedTableData = [...tableData]; // Create a copy of the original data
             updatedTableData[row.index] = values; // Update the specific row
             setTableData(updatedTableData); // Update the state with the modified data
-            const responseData = UpdatePayment(values);////////////////////////////////// Update: Replace UpdateCustomers
+            const responseData = UpdatePayment(values);// Update: Replace UpdateCustomers
             exitEditingMode();
         }
     };
@@ -79,12 +84,12 @@ const TestBookings = () => {
 
     const handleDeleteRow = useCallback( //This function is used to delete a row
         async (row) => {
-            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
+            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { 
                 return;
             }
             try {
                 // Make the delete request here, and then update the tableData if successful
-                await DeletePayment(row.getValue('_id'));//////////////////////Update: Replace the DeletePayment
+                await DeletePayment(row.getValue('_id'));
                 const updatedTableData = [...tableData];
                 updatedTableData.splice(row.index, 1); // Remove the deleted row
                 setTableData(updatedTableData); // Update the state with the modified data
@@ -123,37 +128,31 @@ const TestBookings = () => {
         [validationErrors],
     );
 
-    const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+    const columns = useMemo( 
         () => [ 
             {
                 accessorKey: '_id', 
                 header: 'Record ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'customerId', 
                 header: 'Customer ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
-            },
-            {
-                accessorKey: 'NIC', 
-                header: 'NIC',
-                size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'date', 
                 header: 'Date',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'updatedAt',
@@ -349,46 +348,115 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     const includedColumns = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
      });
+
+     const [selectedCustomerId, setSelectedCustomerId] = useState([]);
+     const [selectedNIC, setSelectedNIC] = useState('');
+
+    useEffect(() => {
+        FetchCustomerIds()
+        .then((customerIds) => {
+            // Set the customer IDs in state
+            if (Array.isArray(customerIds)) {
+            setSelectedCustomerId(customerIds);
+            console.log('Selected customer IDs:', customerIds);
+            } else {
+            console.error('FetchCustomerIds did not return an array:', customerIds);
+            
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching customer IDs:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (values.customerId) {
+          FetchNICByCustomerId(values.customerId)
+            .then((nic) => {
+              setSelectedNIC(nic);
+            })
+            .catch((error) => {
+              console.error('Error fetching NIC:', error);
+            });
+        } else {
+          setSelectedNIC(''); // Reset NIC if customer ID is not selected
+        }
+      }, [values.customerId]);
   
   
-    return (
-      <Dialog open={open}>
-        <DialogTitle textAlign="center">Add New Booking</DialogTitle>
-        <DialogContent>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Stack
-              sx={{
-                width: '100%',
-                minWidth: { xs: '300px', sm: '360px', md: '400px' },
-                gap: '1.5rem',
-              }}
-            >
-              {includedColumns.map((column) => (
-                <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={validationErrors[column.accessorKey] ? true : false}
-                  helperText={validationErrors[column.accessorKey]}
-                />
-              ))}
-            </Stack>
-          </form>
-        </DialogContent>
-        <DialogActions sx={{ p: '1.25rem' }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button color="secondary" onClick={handleSubmit} variant="contained">
-            Create New Payment
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
   
+    const includedColumns1 = columns.filter((column) => {
+        return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt';
+      });
+      const includedColumns2 = columns.filter((column) => {
+        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
+      });
+      
+      return (
+        
+        <Dialog open={open}>
+          <DialogTitle textAlign="center">Add New Payment</DialogTitle>
+          <DialogContent>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <Stack
+                sx={{
+                  width: '100%',
+                  minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                  gap: '1.5rem',
+                }}
+              >
+                 {includedColumns2.map((column) => (
+                  <FormControl key={column.accessorKey}>
+                    <InputLabel>{column.header}</InputLabel>
+                    <Select
+                      label={column.header}
+                      name={column.accessorKey}
+                      value={values[column.accessorKey]}
+                      onChange={(e) =>
+                        setValues({ ...values, [e.target.name]: e.target.value })
+                      }
+                      error={validationErrors[column.accessorKey] ? true : false}
+                      helperText={validationErrors[column.accessorKey]}
+                      
+                    >
+                       {selectedCustomerId.map((customerId) => (
+                          <MenuItem key={customerId} value={customerId}>
+                            {customerId}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                ))}
+
+                
+                {includedColumns1.map((column) => (
+                  <TextField
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({ ...values, [e.target.name]: e.target.value })
+                    }
+                    error={validationErrors[column.accessorKey] ? true : false}
+                    helperText={validationErrors[column.accessorKey]}
+          
+                  />
+                ))}
+                
+              </Stack>
+            </form>
+          </DialogContent>
+          <DialogActions sx={{ p: '1.25rem' }}>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button color="secondary" onClick={handleSubmit} variant="contained">
+              Create New Payment
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    };
+     
   
 const validateRequired = (value) => !!value.length;
 
-export default TestBookings;
+export default Payments;
