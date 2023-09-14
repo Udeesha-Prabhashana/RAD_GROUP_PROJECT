@@ -68,6 +68,7 @@ const Customer = () => {
         if (!Object.keys(validationErrors).length) {
             const updatedTableData = [...tableData]; // Create a copy of the original data
             updatedTableData[row.index] = values; // Update the specific row
+            // console.log(values);
             setTableData(updatedTableData); // Update the state with the modified data
             const responseData = UpdateCustomers(values);
             exitEditingMode();
