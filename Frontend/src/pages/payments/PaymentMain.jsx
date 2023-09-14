@@ -134,31 +134,31 @@ const Payments = () => {
                 accessorKey: '_id', 
                 header: 'Record ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'customerId', 
                 header: 'Customer ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'NIC', 
                 header: 'NIC',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'date', 
                 header: 'Date',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'updatedAt',
