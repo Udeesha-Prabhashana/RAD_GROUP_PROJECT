@@ -7,10 +7,10 @@ const DeleteCustomer = async (id) => {
                 withCredentials: true
             }
         );
-        console.log('Booking deleted:', response.data);
+        console.log('Customer deleted:', response.data);
         return response;
     } catch (error) {
-        console.error('Error deleting booking:', error);
+        console.error('Error deleting Customer:', error);
         throw error;
     }
 };
