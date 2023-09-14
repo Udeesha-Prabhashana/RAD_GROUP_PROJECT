@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo,useEffect,useState } from 'react';
+import React, {useCallback, useMemo,useEffect,useState, useContext } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -8,7 +8,7 @@ import UpdateRoom from './UpdateRoom';
 import DeleteRoom from './DeleteRoom';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 import {
@@ -25,8 +25,18 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { AuthContext } from '../../context/AuthContext';
 
 const Rooms = () => {
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
+        navigate("/");
+    };
+
+  const { dispatch } = useContext(AuthContext)
+
     const { data, loading, error, setData } = useFetch(
         `http://localhost:8880/api/room`
       );
@@ -185,7 +195,7 @@ const Rooms = () => {
         accessorKey: 'updatedAt',
         header: 'Updated At',
         size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+        hidden: true,
       },
     ],
     [getCommonEditTextFieldProps],
@@ -227,7 +237,7 @@ const Rooms = () => {
                   </Typography>
                   <div style={{ marginLeft: 'auto' }}>
                       <Button color="primary" component={Link} to={`/home`} >Home</Button>
-                      <Button color="primary" component={Link} to={`/`}>Logout</Button>
+                      <button disabled={loading}   onClick={handleLogout}><h3>Log Out</h3>  </button>
                   </div>
               </Toolbar>
           </AppBar>
@@ -243,9 +253,11 @@ const Rooms = () => {
               },
             }}
 
+
             columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
             data={tableData} //tableData will show as the data in the table
             initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, balcony: false, wifi: false, updatedAt: false}}}
+
 
             editingMode="modal" 
             enableColumnOrdering
@@ -366,7 +378,9 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   };
   
   const includedColumns1 = columns.filter((column) => {
+
     return column.accessorKey !== '_id' && column.accessorKey !== 'room_type' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi' && column.accessorKey !== 'updatedAt';
+
   });
   const includedColumns2 = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi' ;

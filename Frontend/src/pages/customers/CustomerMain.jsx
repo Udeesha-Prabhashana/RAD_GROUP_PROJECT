@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useEffect, useState, useContext } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -8,7 +8,7 @@ import UpdateCustomers from './UpdateCustomers';
 import DeleteCustomers from './DeleteCustomers';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import {
     Box,
@@ -24,8 +24,18 @@ import {
     Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { AuthContext } from '../../context/AuthContext';
 
 const Customer = () => {
+
+    const navigate = useNavigate();
+  const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
+        navigate("/");
+    };
+
+    const { dispatch } = useContext(AuthContext)
+    
     const { data, loading, error, setData } = useFetch(
         `http://localhost:8880/api/customer`
     );
@@ -58,6 +68,7 @@ const Customer = () => {
         if (!Object.keys(validationErrors).length) {
             const updatedTableData = [...tableData]; // Create a copy of the original data
             updatedTableData[row.index] = values; // Update the specific row
+            // console.log(values);
             setTableData(updatedTableData); // Update the state with the modified data
             const responseData = UpdateCustomers(values);
             exitEditingMode();
@@ -207,7 +218,7 @@ const Customer = () => {
                         </Typography>
                         <div style={{ marginLeft: 'auto' }}>
                             <Button color="primary" component={Link} to={`/home`} >Home</Button>
-                            <Button color="primary" component={Link} to={`/`}>Logout</Button>
+                            <button disabled={loading}   onClick={handleLogout}><h3>Log Out</h3>  </button>
                         </div>
                     </Toolbar>
                 </AppBar>

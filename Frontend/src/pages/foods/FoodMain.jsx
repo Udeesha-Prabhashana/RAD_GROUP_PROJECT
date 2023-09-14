@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo,useEffect,useState } from 'react';
+import React, {useCallback, useMemo,useEffect,useState, useContext } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddFood from './AddFood';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import DeleteFood from './DeleteFood';
 import UpdateFood from './UpdateFood';
 
@@ -24,10 +24,23 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { AuthContext } from '../../context/AuthContext';
 
 
 
 const Food = () => {
+
+
+  const { dispatch } = useContext(AuthContext)
+  
+  const navigate = useNavigate();
+  const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
+        navigate("/");
+  };
+  
+
+
     const { data, loading, error, setData } = useFetch(
         `http://localhost:8880/api/food`
       );
@@ -187,7 +200,7 @@ const Food = () => {
             </Typography>
             <div style={{ marginLeft: 'auto' }}>
               <Button color="primary" component={Link} to={`/home`} >Home</Button>
-              <Button color="primary" component={Link} to={`/`}>Logout</Button>
+              <button disabled={loading}   onClick={handleLogout}><h3>Log Out</h3>  </button>
             </div>
           </Toolbar>
         </AppBar>

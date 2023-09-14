@@ -24,10 +24,10 @@ const Login = () => {
     };
     
     const handleClick = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         dispatch({ type: "LOGIN_START" });
         try {
-            const res = await axios.post(`http://localhost:8880/api/auth/login`, credentials, {withCredentials: true}); // {withCredentials: true} use to validate  other pages
+            const res = await axios.post(`http://localhost:8880/api/auth/login`, credentials, { withCredentials: true }); // {withCredentials: true} use to validate  other pages
             if (res.data.isAdmin) {
                 dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
                 navigate("/home")                  //useNavigate hook (provided by React Router) to redirect the user to the home page ("/")
@@ -35,7 +35,7 @@ const Login = () => {
         } catch (err) {
             dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
         }
-    }
+    };
 
     return (
         <div className="login">
