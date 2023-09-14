@@ -245,7 +245,7 @@ const Rooms = () => {
 
             columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
             data={tableData} //tableData will show as the data in the table
-            initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, balcony: false, wifi: false }}}
+            initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, balcony: false, wifi: false, updatedAt: false}}}
 
             editingMode="modal" 
             enableColumnOrdering
@@ -366,10 +366,13 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   };
   
   const includedColumns1 = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi';
+    return column.accessorKey !== '_id' && column.accessorKey !== 'room_type' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi' && column.accessorKey !== 'updatedAt';
   });
   const includedColumns2 = columns.filter((column) => {
-    return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'room_type' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs' && column.accessorKey !== 'updatedAt';
+      return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'room_ac' && column.accessorKey !== 'availability' && column.accessorKey !== 'tv' && column.accessorKey !== 'balcony' && column.accessorKey !== 'wifi' ;
+  });
+  const includedColumns3 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'room_No' && column.accessorKey !== 'room_type' && column.accessorKey !== 'price' && column.accessorKey !== 'no_of_beds' && column.accessorKey !== 'no_of_chairs' && column.accessorKey !== 'updatedAt' ;
   });
 
   return (
@@ -409,11 +412,31 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                   error={validationErrors[column.accessorKey] ? true : false}
                   helperText={validationErrors[column.accessorKey]}
                 >
-                  <MenuItem value="Yes">Yes</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
+                  <MenuItem value="Single">Single</MenuItem>
+                  <MenuItem value="Double">Double</MenuItem>
+                  <MenuItem value="Tribal">Tribal</MenuItem>
+                  <MenuItem value="Family">Family</MenuItem>
                 </Select>
               </FormControl>
             ))}
+              {includedColumns3.map((column) => (
+                  <FormControl key={column.accessorKey}>
+                      <InputLabel>{column.header}</InputLabel>
+                      <Select
+                          label={column.header}
+                          name={column.accessorKey}
+                          value={values[column.accessorKey]}
+                          onChange={(e) =>
+                              setValues({ ...values, [e.target.name]: e.target.value })
+                          }
+                          error={validationErrors[column.accessorKey] ? true : false}
+                          helperText={validationErrors[column.accessorKey]}
+                      >
+                          <MenuItem value="Yes">Yes</MenuItem>
+                          <MenuItem value="No">No</MenuItem>
+                      </Select>
+                  </FormControl>
+              ))}
           </Stack>
         </form>
       </DialogContent>
