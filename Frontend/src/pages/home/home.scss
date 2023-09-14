@@ -7,9 +7,9 @@
 
   padding: 20px;
   background-image: url('../images/Picture1.jpg');
-  background-size: cover; /* Make the background image cover the entire element */
-  background-repeat: no-repeat; /* Prevent the background image from repeating */
-  background-position: center; /* Center the background image */
+  background-size: cover; 
+  background-repeat: no-repeat;
+  background-position: center; 
 }
 
 
@@ -19,13 +19,10 @@
 }
 .center {
       height: 80%;
-      // flex-grow: 1; /* Allow the center section to expand and fill the remaining space */
       display: flex;
-      // justify-content: center;
       align-items: center;
-      width: 70%; /* Adjust the width of the container as needed */
+      width: 70%;
       padding: 20px;
-      // border: 1px solid #2155CD;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       background-color: #fff;
@@ -56,19 +53,19 @@ ul {
 li {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center children vertically */
+  align-items: center; 
   cursor: pointer;
   transition: transform 0.2s;
   margin-top: 40px;
   margin-bottom: auto;
 
   .icon {
-    font-size: 100px; /* Increase the icon size */
+    font-size: 100px; 
   }
 
   span {
     margin-top: 10px;
-    text-align: center; /* Center text */
+    text-align: center; 
     font-size: 14px;
     font-weight: bold;
   }
@@ -99,7 +96,7 @@ li:hover {
   border-radius: 10px;
 }
 .logout-button .text {
-  font-size: xx-large; /* Increase the font size of the button text */
+  font-size: xx-large;
 }
 
 .logout-button:hover {
