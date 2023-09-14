@@ -237,19 +237,7 @@ const Rooms = () => {
                   </Typography>
                   <div style={{ marginLeft: 'auto' }}>
                       <Button color="primary" component={Link} to={`/home`} >Home</Button>
-                      <button
-                          disabled={loading}
-                          onClick={handleLogout}
-                          style={{
-                              backgroundColor: 'none',
-                              color: 'Blue',
-                              border: 'none',
-                              padding: '10px 20px',
-                              cursor: 'pointer',
-                          }}
-                      >
-                          <h3>Log out</h3>
-                      </button>
+                      <Button color="primary" onClick={handleLogout} >Log out</Button>
                   </div>
               </Toolbar>
           </AppBar>
