@@ -143,6 +143,12 @@ const Payments = () => {
                 hidden: true, 
             },
             {
+                accessorKey: 'paymentId', 
+                header: 'Payment ID',
+                size: 50,
+                hidden: true,
+            },
+            {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
@@ -386,7 +392,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt';
       });
       const includedColumns2 = columns.filter((column) => {
-        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
+        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'paymentId';
       });
       
       return (
