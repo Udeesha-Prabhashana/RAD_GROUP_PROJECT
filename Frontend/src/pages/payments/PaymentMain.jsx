@@ -4,8 +4,8 @@ import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
 import AddPayment from './AddPayment' //////////////////Update Here
-import UpdatePayment from './UpdatePayment'; /////////////////Update Here
-import DeletePayment from './DeletePayment'; /////////////////Update Here
+import UpdatePayment from './UpdatePayment'; 
+import DeletePayment from './DeletePayment'; 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link , useNavigate} from "react-router-dom";
