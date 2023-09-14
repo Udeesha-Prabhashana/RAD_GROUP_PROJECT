@@ -3,7 +3,7 @@ import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import AddIcon from '@mui/icons-material/Add';
-import AddPayment from './AddPayment' //////////////////Update Here
+import AddPayment from './AddPayment' 
 import UpdatePayment from './UpdatePayment'; 
 import DeletePayment from './DeletePayment'; 
 import AppBar from '@mui/material/AppBar';
@@ -41,7 +41,7 @@ const Payments = () => {
   const { dispatch } = useContext(AuthContext)
 
     const { data, loading, error, setData } = useFetch(
-            `http://localhost:8880/api/payment` //////////////////update this URL
+            `http://localhost:8880/api/payment`
         );
   
     const [tableData, setTableData] = useState([]); //Current showing table data
@@ -55,7 +55,7 @@ const Payments = () => {
 
     const handleCreateNewRow = async (values) => {//This function creates a new row and sync with mongodb
         try {
-            const responseData = await AddPayment(values); //////////////////////Update: Replace AddCustomers
+            const responseData = await AddPayment(values); 
         
             // Update the tableData state with the new data
             setTableData((prevData) => [...prevData, values]);
@@ -73,7 +73,7 @@ const Payments = () => {
             const updatedTableData = [...tableData]; // Create a copy of the original data
             updatedTableData[row.index] = values; // Update the specific row
             setTableData(updatedTableData); // Update the state with the modified data
-            const responseData = UpdatePayment(values);////////////////////////////////// Update: Replace UpdateCustomers
+            const responseData = UpdatePayment(values);// Update: Replace UpdateCustomers
             exitEditingMode();
         }
     };
@@ -84,12 +84,12 @@ const Payments = () => {
 
     const handleDeleteRow = useCallback( //This function is used to delete a row
         async (row) => {
-            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { ///////////Delete karaddi uda poppup eke watena eka
+            if (!window.confirm(`Are you sure you want to delete ${row.getValue('_id')}`)) { 
                 return;
             }
             try {
                 // Make the delete request here, and then update the tableData if successful
-                await DeletePayment(row.getValue('_id'));//////////////////////Update: Replace the DeletePayment
+                await DeletePayment(row.getValue('_id'));
                 const updatedTableData = [...tableData];
                 updatedTableData.splice(row.index, 1); // Remove the deleted row
                 setTableData(updatedTableData); // Update the state with the modified data
@@ -128,31 +128,31 @@ const Payments = () => {
         [validationErrors],
     );
 
-    const columns = useMemo( /////////////////Update: Define your columns here. As the accessory key always use mongoDB data fiiled names in relevent schema
+    const columns = useMemo( 
         () => [ 
             {
                 accessorKey: '_id', 
                 header: 'Record ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'customerId', 
                 header: 'Customer ID',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true,
             },
             {
                 accessorKey: 'date', 
                 header: 'Date',
                 size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
             {
                 accessorKey: 'updatedAt',
