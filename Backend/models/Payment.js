@@ -6,6 +6,10 @@ const PaymentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
+    paymentId: {
+      type: String,
+      require: true,
+    },
     payment: {
       type: Number,
       require: true,
