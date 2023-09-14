@@ -376,6 +376,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     setValidationErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
   
   const includedColumns1 = columns.filter((column) => {
 
