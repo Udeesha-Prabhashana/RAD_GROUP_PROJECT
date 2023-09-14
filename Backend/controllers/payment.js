@@ -1,12 +1,14 @@
 import Payment from "../models/Payment.js";
 
 export const createPayment = async (req, res, next) => {
+  // console.log(req.body)
     const newPayment = new Payment({
       customerId : req.body.customerId,
       paymentId: req.body.paymentId,
       payment: req.body.payment,
       date: req.body.date
     });
+
   
     try {
       const savedPayment = await newPayment.save();
