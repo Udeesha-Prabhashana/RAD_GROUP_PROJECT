@@ -185,7 +185,7 @@ const Rooms = () => {
         accessorKey: 'updatedAt',
         header: 'Updated At',
         size: 150,
-        hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+        hidden: true,
       },
     ],
     [getCommonEditTextFieldProps],
@@ -243,8 +243,8 @@ const Rooms = () => {
               },
             }}
 
-            columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
-            data={tableData} //tableData will show as the data in the table
+            columns={columns}
+            data={tableData}
             initialState={{ columnVisibility: { _id: false, no_of_beds: false, no_of_chairs: false, tv: false, balcony: false, wifi: false }}}
 
             editingMode="modal" 
