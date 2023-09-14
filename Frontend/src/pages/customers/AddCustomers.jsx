@@ -9,11 +9,11 @@ const AddCustomer = async (newRow) => {
             }
            
           );
-      console.log('Booking added:', response.data)
+      console.log('Customer added:', response.data)
       return response.data
 
     } catch (error) {
-        console.error('Error adding room:', error);
+        console.error('Error adding Customer:', error);
     }
     
 };

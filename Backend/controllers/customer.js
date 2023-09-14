@@ -73,3 +73,18 @@ export const getCustomerIds = async (req, res, next) => {
         next(err);
     }
 };
+
+export const getCustomerNICByCustomerId = async (req, res, next) => {
+    const { customerId } = req.params; 
+    try {
+        const customer = await Customer.findOne({ CustomerId: customerId }, 'NIC');
+        if (!customer) {
+            return res.status(404).json({ message: 'Customer not found' });
+        }
+        const customerNIC = customer.NIC;
+        console.log(customerNIC);
+        res.status(200).json(customerNIC);
+    } catch (err) {
+        next(err);
+    }
+};

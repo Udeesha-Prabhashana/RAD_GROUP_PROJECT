@@ -1,6 +1,6 @@
 import express from "express"; //
 
-import { createCustomer, updateCustomer, deleteCustomer, getCustomers, getCustomer, getCustomerIds } from "../controllers/customer.js";
+import { createCustomer, updateCustomer, deleteCustomer, getCustomers, getCustomer, getCustomerIds, getCustomerNICByCustomerId } from "../controllers/customer.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
@@ -20,6 +20,8 @@ router.get("/getCustomerIds", getCustomerIds);
 router.get("/", getCustomers);
 //get specific user
 router.get("/find/:id", getCustomer);
+
+router.get("/nic/:customerId", getCustomerNICByCustomerId);
 
 
 

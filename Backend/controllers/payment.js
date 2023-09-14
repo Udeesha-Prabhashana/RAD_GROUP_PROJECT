@@ -3,7 +3,6 @@ import Payment from "../models/Payment.js";
 export const createPayment = async (req, res, next) => {
     const newPayment = new Payment({
       customerId : req.body.customerId,
-      NIC: req.body.NIC,
       payment: req.body.payment,
       date: req.body.date
     });
