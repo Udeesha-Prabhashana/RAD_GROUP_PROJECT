@@ -3,14 +3,14 @@
     justify-content: center; /* Horizontally center the form */
     align-items: center; /* Vertically center the form */
     height: 100vh; /* Set the form height to fill the viewport */
-    background-image: url('../images/wallpaper0.jpg');
+    background-image: url('../images/wallpaper8.jpg');
     background-size: cover; /* Adjust as needed */
     background-repeat: no-repeat;
     background-position: center center;
     opacity: 0.9;
     
     .lContainer {
-        width: 300px; /* Adjust the width of the container as needed */
+        width: 400px; /* Adjust the width of the container as needed */
         padding: 20px;
         // border: 1px solid #2155CD;
         border-radius: 8px;
@@ -20,14 +20,14 @@
         0px 0px 10px rgba(0, 0, 0, 0.3),
         0px 4px 6px rgba(0, 0, 0, 0.2);
         width: 100%;
-  max-width: 330px;
-  margin: auto;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
+        max-width: 330px;
+        margin: auto;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(100px);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
     }
     
     .header {

@@ -143,6 +143,12 @@ const Payments = () => {
                 hidden: true, 
             },
             {
+                accessorKey: 'paymentId', 
+                header: 'Payment ID',
+                size: 50,
+                hidden: true,
+            },
+            {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
@@ -158,7 +164,7 @@ const Payments = () => {
                 accessorKey: 'updatedAt',
                 header: 'Updated At',
                 size: 150,
-                hidden: true, ////////////////Update: Meken column eka hide karanna puluwan
+                hidden: true, 
             },
         ],
         [getCommonEditTextFieldProps],
@@ -186,7 +192,7 @@ const Payments = () => {
         // Create a download link and trigger the download
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(blob);
-        link.download = 'Payment_Report.csv'; //////////////////Update: You can give any name here for downloading document
+        link.download = 'Payment_Report.csv'; 
         link.click();
     };
 
@@ -227,7 +233,7 @@ const Payments = () => {
                                 size: 120,
                             },
                         }}
-                        columns={columns} //These are the options for table. By refering https://www.material-react-table.com/ you can choose options
+                        columns={columns} 
                         data={tableData} //tableData will show as the data in the table
                         initialState={{ columnVisibility: { _id: false, updatedAt:false, totalPrice:false }}}
                         editingMode="modal" 
@@ -246,11 +252,9 @@ const Payments = () => {
                                     gridTemplateColumns: '1fr 1fr',
                                     width: '100%',
                                 }}
-                                ///////////////////Detail Panel Expand ekata enna oni dewal//////////////////////////////////////
                             >
                             
                             <Typography>Record ID: {row.original._id}</Typography>
-                            {/* <Typography>Total Price: {row.original.totalPrice}</Typography> */}
                             <Typography>Updated At: {row.original.updatedAt}</Typography>
 
                             </Box>
@@ -289,7 +293,6 @@ const Payments = () => {
                             >
                                 Export All Data
                             </Button>
-                            {/* Other buttons for exporting */}
                             </Box>
                         )}
                     />
@@ -344,7 +347,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       setValidationErrors(errors);
       return Object.keys(errors).length === 0;
     };
-    ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
+    
     const includedColumns = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
      });
@@ -389,7 +392,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
         return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt';
       });
       const includedColumns2 = columns.filter((column) => {
-        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
+        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'paymentId';
       });
       
       return (
