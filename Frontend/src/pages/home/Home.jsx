@@ -10,7 +10,7 @@ import { AuthContext } from '../../context/AuthContext';
 
 const Home = () => {
 
-    const { user ,loading, dispatch} = useContext(AuthContext)
+    const { loading, dispatch} = useContext(AuthContext)
 
     const navigate = useNavigate();
     const handleClick_food = () => {

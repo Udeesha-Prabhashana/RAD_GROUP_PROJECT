@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo,useEffect,useState } from 'react';
+import React, {useCallback, useMemo,useEffect,useState, useContext } from 'react';
 import { MaterialReactTable } from 'material-react-table';
 import useFetch from "../../hooks/useFetch";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -8,7 +8,7 @@ import UpdateBooking from './UpdateBooking';
 import DeleteBooking from './DeleteBooking';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -23,10 +23,20 @@ import {
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { AuthContext } from '../../context/AuthContext';
 
 
 
 const TestBookings = () => {
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
+        navigate("/");
+    };
+
+  const { dispatch } = useContext(AuthContext)
+  
     const { data, loading, error, setData } = useFetch(
         `http://localhost:8880/api/booking`
       );
@@ -203,7 +213,7 @@ const TestBookings = () => {
                   </Typography>
                   <div style={{ marginLeft: 'auto' }}>
                       <Button color="primary" component={Link} to={`/home`} >Home</Button>
-                      <Button color="primary" component={Link} to={`/`}>Logout</Button>
+                      <button disabled={loading}   onClick={handleLogout}><h3>Log Out</h3>  </button>
                   </div>
               </Toolbar>
           </AppBar>
