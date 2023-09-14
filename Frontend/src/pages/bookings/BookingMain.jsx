@@ -6,23 +6,32 @@ import AddIcon from '@mui/icons-material/Add';
 import AddBooking from './AddBooking';
 import UpdateBooking from './UpdateBooking';
 import DeleteBooking from './DeleteBooking';
+import FetchCustomerIds from './fetchCustomerId';
+import FetchRoomNos from './fetchRoomNos';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link } from "react-router-dom";
+import { FormControl, InputLabel} from '@mui/material';
+
+
+
 import {
   Box,
   Typography,
+  TextField,
   Button,
+  Select, 
+  MenuItem,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
   Stack,
-  TextField,
   Tooltip,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
+import { flexbox } from '@mui/system';
 
 
 
@@ -339,8 +348,55 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
    });
 
+   const [selectedCustomerId, setSelectedCustomerId] = useState([]);
 
+   useEffect(() => {
+    FetchCustomerIds()
+      .then((customerIds) => {
+        // Set the customer IDs in state
+        if (Array.isArray(customerIds)) {
+          setSelectedCustomerId(customerIds);
+          console.log('Selected customer IDs:', customerIds);
+        } else {
+          console.error('FetchCustomerIds did not return an array:', customerIds);
+          
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching customer IDs:', error);
+      });
+  }, []);
+
+  const [selectedRoomNos, setSelectedRoomNos] = useState([]);
+
+   useEffect(() => {
+    FetchRoomNos()
+      .then((roomNos) => {
+        // Set the customer IDs in state
+        if (Array.isArray(roomNos)) {
+          setSelectedRoomNos(roomNos);
+        } else {
+          console.error('FetchRoomNos did not return an array:', roomNos);
+          
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching room Nos:', error);
+      });
+  }, []);
+
+
+  const includedColumns1 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'roomId' && column.accessorKey !== 'updatedAt';
+  });
+  const includedColumns2 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'bookingId' &&  column.accessorKey !== 'checkInDate' && column.accessorKey !== 'checkOutDate' && column.accessorKey !== 'totalPrice' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'roomId';
+  });
+  const includedColumns3 = columns.filter((column) => {
+    return column.accessorKey !== '_id' && column.accessorKey !== 'bookingId' &&  column.accessorKey !== 'checkInDate' && column.accessorKey !== 'checkOutDate' && column.accessorKey !== 'totalPrice' && column.accessorKey !== 'updatedAt' && column.accessorKey !== 'customerId';
+  });
   return (
+    
     <Dialog open={open}>
       <DialogTitle textAlign="center">Add New Booking</DialogTitle>
       <DialogContent>
@@ -352,7 +408,51 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
               gap: '1.5rem',
             }}
           >
-            {includedColumns.map((column) => (
+             {includedColumns2.map((column) => (
+              <FormControl key={column.accessorKey}>
+                <InputLabel>{column.header}</InputLabel>
+                <Select
+                  label={column.header}
+                  name={column.accessorKey}
+                  value={values[column.accessorKey]}
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                  error={validationErrors[column.accessorKey] ? true : false}
+                  helperText={validationErrors[column.accessorKey]}
+                  
+                >
+                   {selectedCustomerId.map((customerId) => (
+                      <MenuItem key={customerId} value={customerId}>
+                        {customerId}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            ))}
+            {includedColumns3.map((column) => (
+              <FormControl key={column.accessorKey}>
+                <InputLabel>{column.header}</InputLabel>
+                <Select
+                  label={column.header}
+                  name={column.accessorKey}
+                  value={values[column.accessorKey]}
+                  onChange={(e) =>
+                    setValues({ ...values, [e.target.name]: e.target.value })
+                  }
+                  error={validationErrors[column.accessorKey] ? true : false}
+                  helperText={validationErrors[column.accessorKey]}
+                  
+                >
+                   {selectedRoomNos.map((roomId) => (
+                      <MenuItem key={roomId} value={roomId}>
+                        {roomId}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            ))}
+            {includedColumns1.map((column) => (
               <TextField
                 key={column.accessorKey}
                 label={column.header}
@@ -364,6 +464,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                 helperText={validationErrors[column.accessorKey]}
               />
             ))}
+            
           </Stack>
         </form>
       </DialogContent>
