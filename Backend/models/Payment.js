@@ -6,10 +6,6 @@ const PaymentSchema = new mongoose.Schema(
       type: String,
       require: true,
     },
-    NIC: {
-      type: String,
-      require: true,
-    },
     payment: {
       type: Number,
       require: true,
