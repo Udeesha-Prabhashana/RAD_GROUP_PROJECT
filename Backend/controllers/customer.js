@@ -62,3 +62,14 @@ export const getCustomer = async (req, res, next) => {
         next(err);
     }
 };
+
+export const getCustomerIds = async (req, res, next) => {
+    try {
+        const customers = await Customer.find({}, 'CustomerId'); 
+        const customerIds = customers.map(customer => customer.CustomerId);
+        console.log(customerIds);
+        res.status(200).json(customerIds);
+    } catch (err) {
+        next(err);
+    }
+};

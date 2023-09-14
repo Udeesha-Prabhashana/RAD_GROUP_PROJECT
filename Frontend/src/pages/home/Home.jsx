@@ -5,8 +5,13 @@ import BedroomChildOutlinedIcon from '@mui/icons-material/BedroomChildOutlined';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import { Link, useNavigate } from "react-router-dom";
 import "./home.scss";
+import { useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 const Home = () => {
+
+    const { user ,loading, dispatch} = useContext(AuthContext)
+
     const navigate = useNavigate();
     const handleClick_food = () => {
         navigate('/food');
@@ -24,6 +29,7 @@ const Home = () => {
         navigate('/payment');
     }
     const handleLogout = () => {
+        dispatch({ type: "LOGOUT" });
         navigate("/");
     };
     return (
@@ -55,7 +61,7 @@ const Home = () => {
                     </li>
                 </ul>
                 <div className="logout">
-                    <button className="logout-button" onClick={handleLogout}><h3>Log Out</h3>  </button>
+                    <button disabled={loading}  className="logout-button" onClick={handleLogout}><h3>Log Out</h3>  </button>
                 </div>
             </div>
             

@@ -64,3 +64,14 @@ export const getRoom = async (req, res, next) => {
   }
 };
 
+export const getRoomNos = async (req, res, next) => {
+  try {
+      const rooms = await Room.find({}, 'room_No'); 
+      const roomNos = rooms.map(room => room.room_No);
+      console.log(roomNos);
+      res.status(200).json(roomNos);
+  } catch (err) {
+      next(err);
+  }
+};
+
