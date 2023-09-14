@@ -341,7 +341,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
       setValidationErrors(errors);
       return Object.keys(errors).length === 0;
     };
-    ///////////////Update: Aluthen record ekak create karaddi pennanna one nathi field methana return wenna danna. Ewwa form eke pennanne naha.
+    
     const includedColumns = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
      });
