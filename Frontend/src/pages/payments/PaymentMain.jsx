@@ -9,11 +9,16 @@ import DeletePayment from './DeletePayment'; /////////////////Update Here
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { Link , useNavigate} from "react-router-dom";
+import FetchCustomerIds from '../payments/fetchCustomerId';
+import FetchNICByCustomerId from './FetchNICByCustomerId';
+import { FormControl, InputLabel} from '@mui/material';
 import {
     Box,
     Typography,
     Button,
     Dialog,
+    Select, 
+    MenuItem,
     DialogActions,
     DialogContent,
     DialogTitle,
@@ -25,7 +30,7 @@ import {
 import { Delete, Edit } from '@mui/icons-material';
 import { AuthContext } from '../../context/AuthContext';
 
-const TestBookings = () => {
+const Payments = () => {
 
   const navigate = useNavigate();
   const handleLogout = () => {
@@ -349,46 +354,119 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
     const includedColumns = columns.filter((column) => {
       return column.accessorKey !== '_id' && column.accessorKey !== 'updatedAt'; 
      });
+
+     const [selectedCustomerId, setSelectedCustomerId] = useState([]);
+     const [selectedNIC, setSelectedNIC] = useState('');
+
+    useEffect(() => {
+        FetchCustomerIds()
+        .then((customerIds) => {
+            // Set the customer IDs in state
+            if (Array.isArray(customerIds)) {
+            setSelectedCustomerId(customerIds);
+            console.log('Selected customer IDs:', customerIds);
+            } else {
+            console.error('FetchCustomerIds did not return an array:', customerIds);
+            
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching customer IDs:', error);
+        });
+    }, []);
+
+    useEffect(() => {
+        if (values.customerId) {
+          FetchNICByCustomerId(values.customerId)
+            .then((nic) => {
+              setSelectedNIC(nic);
+            })
+            .catch((error) => {
+              console.error('Error fetching NIC:', error);
+            });
+        } else {
+          setSelectedNIC(''); // Reset NIC if customer ID is not selected
+        }
+      }, [values.customerId]);
   
   
-    return (
-      <Dialog open={open}>
-        <DialogTitle textAlign="center">Add New Booking</DialogTitle>
-        <DialogContent>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <Stack
-              sx={{
-                width: '100%',
-                minWidth: { xs: '300px', sm: '360px', md: '400px' },
-                gap: '1.5rem',
-              }}
-            >
-              {includedColumns.map((column) => (
+  
+    const includedColumns1 = columns.filter((column) => {
+        return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt' && column.accessorKey !=='NIC';
+      });
+      const includedColumns2 = columns.filter((column) => {
+        return column.accessorKey !== '_id' && column.accessorKey !== 'NIC' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
+      });
+      
+      return (
+        
+        <Dialog open={open}>
+          <DialogTitle textAlign="center">Add New Payment</DialogTitle>
+          <DialogContent>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <Stack
+                sx={{
+                  width: '100%',
+                  minWidth: { xs: '300px', sm: '360px', md: '400px' },
+                  gap: '1.5rem',
+                }}
+              >
+                 {includedColumns2.map((column) => (
+                  <FormControl key={column.accessorKey}>
+                    <InputLabel>{column.header}</InputLabel>
+                    <Select
+                      label={column.header}
+                      name={column.accessorKey}
+                      value={values[column.accessorKey]}
+                      onChange={(e) =>
+                        setValues({ ...values, [e.target.name]: e.target.value })
+                      }
+                      error={validationErrors[column.accessorKey] ? true : false}
+                      helperText={validationErrors[column.accessorKey]}
+                      
+                    >
+                       {selectedCustomerId.map((customerId) => (
+                          <MenuItem key={customerId} value={customerId}>
+                            {customerId}
+                          </MenuItem>
+                        ))}
+                    </Select>
+                  </FormControl>
+                ))}
                 <TextField
-                  key={column.accessorKey}
-                  label={column.header}
-                  name={column.accessorKey}
-                  onChange={(e) =>
-                    setValues({ ...values, [e.target.name]: e.target.value })
-                  }
-                  error={validationErrors[column.accessorKey] ? true : false}
-                  helperText={validationErrors[column.accessorKey]}
-                />
-              ))}
-            </Stack>
-          </form>
-        </DialogContent>
-        <DialogActions sx={{ p: '1.25rem' }}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button color="secondary" onClick={handleSubmit} variant="contained">
-            Create New Payment
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
-  };
-  
+                    label="NIC"
+                    name="NIC"
+                    value={selectedNIC} // Use the selectedNIC state to display the NIC value
+                    disabled
+                    />
+                
+                {includedColumns1.map((column) => (
+                  <TextField
+                    key={column.accessorKey}
+                    label={column.header}
+                    name={column.accessorKey}
+                    onChange={(e) =>
+                      setValues({ ...values, [e.target.name]: e.target.value })
+                    }
+                    error={validationErrors[column.accessorKey] ? true : false}
+                    helperText={validationErrors[column.accessorKey]}
+                  />
+                ))}
+                
+              </Stack>
+            </form>
+          </DialogContent>
+          <DialogActions sx={{ p: '1.25rem' }}>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button color="secondary" onClick={handleSubmit} variant="contained">
+              Create New Payment
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    };
+     
   
 const validateRequired = (value) => !!value.length;
 
-export default TestBookings;
+export default Payments;
