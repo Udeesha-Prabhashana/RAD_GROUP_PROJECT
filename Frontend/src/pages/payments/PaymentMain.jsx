@@ -143,12 +143,6 @@ const Payments = () => {
                 hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
             },
             {
-                accessorKey: 'NIC', 
-                header: 'NIC',
-                size: 50,
-                hidden: true, ///////////////////Update: Meken column eka hide karanna puluwan
-            },
-            {
                 accessorKey: 'payment', 
                 header: 'Payment',
                 size: 50,
@@ -392,10 +386,10 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
   
   
     const includedColumns1 = columns.filter((column) => {
-        return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt' && column.accessorKey !=='NIC';
+        return column.accessorKey !== '_id' && column.accessorKey !== 'customerId' && column.accessorKey !== 'updatedAt';
       });
       const includedColumns2 = columns.filter((column) => {
-        return column.accessorKey !== '_id' && column.accessorKey !== 'NIC' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
+        return column.accessorKey !== '_id' &&  column.accessorKey !== 'payment' && column.accessorKey !== 'date' && column.accessorKey !== 'updatedAt';
       });
       
       return (
@@ -433,12 +427,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                     </Select>
                   </FormControl>
                 ))}
-                <TextField
-                    label="NIC"
-                    name="NIC"
-                    value={selectedNIC} // Use the selectedNIC state to display the NIC value
-                    disabled
-                    />
+
                 
                 {includedColumns1.map((column) => (
                   <TextField
@@ -450,6 +439,7 @@ export const CreateNewAccountModal = ({ open, columns, onClose, onSubmit }) => {
                     }
                     error={validationErrors[column.accessorKey] ? true : false}
                     helperText={validationErrors[column.accessorKey]}
+          
                   />
                 ))}
                 
