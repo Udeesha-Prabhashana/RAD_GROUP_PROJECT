@@ -38,7 +38,7 @@ export const createPayment = async (req, res, next) => {
     }
   };
   
-  // Get all Food
+
   export const getPayments = async (req, res, next) => {
     try {
       const payment = await Payment.find();

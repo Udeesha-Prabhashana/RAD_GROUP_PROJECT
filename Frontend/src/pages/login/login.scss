@@ -1,18 +1,17 @@
 .login {
     display: flex;
-    justify-content: center; /* Horizontally center the form */
-    align-items: center; /* Vertically center the form */
-    height: 100vh; /* Set the form height to fill the viewport */
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
     background-image: url('../images/wallpaper8.jpg');
-    background-size: cover; /* Adjust as needed */
+    background-size: cover; 
     background-repeat: no-repeat;
     background-position: center center;
     opacity: 0.9;
     
     .lContainer {
-        width: 400px; /* Adjust the width of the container as needed */
+        width: 400px; 
         padding: 20px;
-        // border: 1px solid #2155CD;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         background-color: #fff;
